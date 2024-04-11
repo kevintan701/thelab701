@@ -1,1 +1,98 @@
 /* css for Kevin's final project - THE.LAB.701 website */
+
+/* 1. Animate the Logo */
+@keyframes logowordmarkTransform {
+    from {
+        width: 20%;
+        opacity: 1;
+        x-index: 0;
+        y-index: 20;
+
+    }
+
+    to {
+        width: 20%;
+        opacity: 1;
+        x-index: 0;
+        y-index: 40;
+    }
+}
+
+#logo_word_mark {
+    animation: logowordmarkTransform 5s ease-out forwards;
+}
+
+/* Base styles */
+body {
+    /* Font family and basic styling */
+    background-color: white;
+    font-family: 'Abhaya Libre', serif;
+
+}
+
+/* Header styles */
+header{
+    /* Flexbox or grid to align items */
+    /* Transition effects */
+    background-color: white;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.skip-link {
+    /* Visually hidden */
+    position: fixed;
+    top: -45px;
+    left: 1.5%;
+    background-color: white;
+    color: black;
+    padding: 8px;
+    z-index: 100;
+}
+
+.skip-link:focus{
+    top: 20px;
+    position: top;
+    z-index: 120;
+
+}
+
+/* Navigation styles */
+header nav {
+    /* Flexbox or grid to align items */
+    /* Transition effects */
+    background-color: black;
+    
+}
+
+.nav_links {
+    display: flex;
+    flex-direction: column;
+    /* Adjust as needed */
+    justify-content: center;
+    /* This might need adjustment */
+    align-items: center;
+
+}
+
+/* Main Content */
+main {
+    /* Grid for layout */
+    /* Transitions for scroll effect */
+}
+
+
+
+/* Media queries */
+@media only screen and (min-width: 600px) {
+    /* Tablet view adjustments */
+}
+
+@media only screen and (min-width: 1024px) {
+    /* Desktop view adjustments */
+}
