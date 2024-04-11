@@ -20,6 +20,7 @@
 
 #logo_word_mark {
     animation: logowordmarkTransform 5s ease-out forwards;
+    width: 20%;
 }
 
 /* Base styles */
