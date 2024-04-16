@@ -23,9 +23,17 @@
     word-wrap: normal;
     direction: ltr;
     -webkit-font-smoothing: antialiased;
+
+
 }
 
-
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
 
 
 /* Animate the Logo */
@@ -273,9 +281,22 @@ main {
 
 .home-check-701 {
     align-self: center;
-    text-align: right;
+    text-align: center;
+    position: sticky;
+
+}
+
+.home-explore-701 {
+    align-self: center;
+    text-align: left;
     position: fixed;
-    transform: (30%, 200px);
+
+}
+
+.home-about-701 {
+    align-self: center;
+    text-align: center;
+    position: fixed;
 
 }
 
@@ -283,12 +304,25 @@ main {
     color: black;
     cursor: pointer;
     display: block;
-    transform: rotate(180deg) translate(30%, 200px);
-    position: fixed;
-    margin-left: 5%;
+    transform: rotate(180deg) translate(90%, 200px);
+    position: sticky;
 }
 
+#navigation-arrow-right{
+    color: black;
+    cursor: pointer;
+    display: block;
+    transform:  translate(90%, -270px);
+    position: sticky;
+}
 
+#navigation-arrow-bottom{
+    color: black;
+    cursor: pointer;
+    display: block;
+    transform: rotate(90deg) translate(30%, 0);
+    position: sticky;
+}
 /* Media queries */
 @media only screen and (min-width: 600px) {
     /* Tablet view adjustments */
