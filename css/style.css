@@ -14,7 +14,7 @@
     font-family: 'Material Symbols Outlined';
     font-weight: normal;
     font-style: normal;
-    font-size: 34px;
+    font-size: 40px;
     line-height: 1;
     letter-spacing: normal;
     text-transform: none;
@@ -26,11 +26,12 @@
 }
 
 
+
+
 /* Animate the Logo */
 @keyframes logowordmarkTransform {
     from {
-        width: 100px;
-        opacity: 0;
+        opacity: 1;
         transform: translate(0, 10px);
         align-self: start;
         margin-left: 20px;
@@ -38,7 +39,6 @@
     }
 
     to {
-        width: 100px;
         opacity: 1;
         transform: translate(0, 30px);
         align-self: start;
@@ -48,19 +48,46 @@
 }
 
 #logo-word-mark {
-    animation: logowordmarkTransform 3s ease-out forwards;
+    animation: logowordmarkTransform 4s ease-out forwards;
+
+    animation-delay: 2s;
+    width: 100px;
     position: fixed;
+    align-self: start;
+    margin-left: 20px;
 }
 
 @keyframes logomarkTransform {
     from {
-        width: 200px;
-        opacity: 0;
-        transform: translate(60%, 200px);
+        width: 180px;
+        opacity: 1;
+        transform: translate(100%, 280px);
         align-self: start;
 
 
     }
+/* 
+    25% {
+        width: 180px;
+        opacity: 1;
+        transform: translate(150x, 300px);
+        align-self: start;
+    }
+
+    50% {
+        width: 120px;
+        opacity: 1;
+        transform: translate(100px, 200px);
+        align-self: start;
+    }*/
+
+    75% {
+        width: 55px;
+        opacity: 1;
+        transform: translate(0px, 60px);
+        align-self: start;
+        margin-left: 40px;
+    } 
 
     to {
         width: 55px;
@@ -72,8 +99,12 @@
 }
 
 #logo-mark {
-    animation: logomarkTransform 3s ease-out forwards;
+    animation: logomarkTransform 4s ease-out forwards;
+    animation-delay: 2s;
+    width: 180px;
+    transform: translate(100%, 280px);
     position: fixed;
+    align-self: start;
 
 }
 
@@ -155,12 +186,14 @@ header nav {
 
 }
 
-.navbar a:hover {
+.navbar a:hover{
     color: #000000;
     background-color: rgb(255, 255, 255);
     border-radius: 25px;
     padding: 5px;
+    font-weight: bold;
 }
+
 
 #close-menu-btn {
     position: absolute;
@@ -219,7 +252,7 @@ main {
 @keyframes homecontentTransform {
     from {
         opacity: 1;
-        transform: translate(0, 50%);
+        transform: translate(0, 30%);
         align-self: center;
     }
 
@@ -227,12 +260,32 @@ main {
         opacity: 0;
         transform: translate(0, 100%);
         align-self: center;
-        margin-left: 40px;
     }
 }
 
 #home-content {
-    animation: homecontentTransform 3s ease-out forwards;
+    animation: homecontentTransform 4s ease-out forwards;    
+    animation-delay: 2s;
+    transform: translate(0, 30%);
+    align-self: center;
+}
+
+
+.home-check-701 {
+    align-self: center;
+    text-align: right;
+    position: fixed;
+    transform: (30%, 200px);
+
+}
+
+#navigation-arrow-left{
+    color: black;
+    cursor: pointer;
+    display: block;
+    transform: rotate(180deg) translate(30%, 200px);
+    position: fixed;
+    margin-left: 5%;
 }
 
 
@@ -273,8 +326,56 @@ main {
         padding: 0;
     }
 
-
-
+    @keyframes logomarkTransform {
+        from {
+            width: 200px;
+            opacity: 1;
+            transform: translate(150%, 300px);
+            align-self: start;
+    
+    
+        }
+    /* 
+        25% {
+            width: 180px;
+            opacity: 1;
+            transform: translate(150x, 300px);
+            align-self: start;
+        }
+    
+        50% {
+            width: 120px;
+            opacity: 1;
+            transform: translate(100px, 200px);
+            align-self: start;
+        }*/
+    
+        75% {
+            width: 55px;
+            opacity: 1;
+            transform: translate(0px, 60px);
+            align-self: start;
+            margin-left: 40px;
+        } 
+    
+        to {
+            width: 55px;
+            opacity: 1;
+            transform: translate(0, 0px);
+            align-self: start;
+            margin-left: 40px;
+        }
+    }
+    #logo-mark {
+        animation: logomarkTransform 4s ease-out forwards;
+        animation-delay: 2s;
+        width: 200px;
+        transform: translate(150%, 300px);
+        position: fixed;
+        align-self: start;
+        margin-left: 20px;
+    
+    }
 
 
 }
