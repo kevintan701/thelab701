@@ -3,6 +3,13 @@
 const header = document.querySelector("header");
 const hamburgerBtn = document.querySelector("#hamburger-btn");
 const closeMenuBtn = document.querySelector("#close-menu-btn");
+const gotoMenuBtn = document.querySelector("#navigation-arrow-menu");
+const gotoExploreBtn = document.querySelector("#navigation-arrow-explore");
+const gotoAboutBtn = document.querySelector("#navigation-arrow-about");
+const gotoMemoryArrowLeft = document.querySelector("#left-arrow-memories");
+const gotoAboutArrowRight = document.querySelector("#right-arrow-about");
+const gotoMenuArrowLeft = document.querySelector("#left-arrow-menu");
+const gotoMemoryArrowRight = document.querySelector("#right-arrow-memories");
 
 // Toggle mobile menu on hamburger button click
 hamburgerBtn.addEventListener("click", () => header.classList.toggle("show-mobile-menu"));
@@ -10,23 +17,24 @@ hamburgerBtn.addEventListener("click", () => header.classList.toggle("show-mobil
 // Close mobile menu on close button click
 closeMenuBtn.addEventListener("click", () => hamburgerBtn.click());
 
-// ... existing code ...
+// Go to menu page on arrow click
+gotoMenuBtn.addEventListener("click", () => window.location.href = "menu.html");
 
-// Function to apply parallax effect
-// function applyParallax() {
-//     const scrolled = window.scrollY;
+// Go to explore page on arrow click
+gotoExploreBtn.addEventListener("click", () => window.location.href = "memory.html");
 
-//     // Select elements
-//     const logoWordMark = document.getElementById('logo-word-mark');
-//     const logoMark = document.getElementById('logo-mark');
-//     const homeContent = document.getElementById('home-content');
+// Go to about page on arrow click
+gotoAboutBtn.addEventListener("click", () => window.location.href = "about.html");
 
-//     // Apply styles based on scroll position
-//     // Change the '0.5' to adjust the speed of the parallax effect
-//     logoWordMark.style.transform = 'translateY(' + scrolled * 3 + 'px)';
-//     logoMark.style.transform = 'translateY(' + scrolled * 3 + 'px)';
-//     homeContent.style.transform = 'translateY(' + scrolled * 3 + 'px)';
-// }
+// Go to memories page on arrow click
+gotoMemoryArrowLeft.addEventListener("click", () => window.location.href = "memory.html");
 
-// // Event listener for scroll event
-// window.addEventListener('scroll', applyParallax);
+// Go to about page on arrow click
+gotoAboutArrowRight.addEventListener("click", () => window.location.href = "about.html");
+
+// Go to menu page on arrow click
+gotoMenuArrowLeft.addEventListener("click", () => window.location.href = "menu.html");
+
+// Go to memories page on arrow click
+gotoMemoryArrowRight.addEventListener("click", () => window.location.href = "memory.html");
+
