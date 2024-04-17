@@ -12,29 +12,50 @@ const gotoMenuArrowLeft = document.querySelector("#left-arrow-menu");
 const gotoMemoryArrowRight = document.querySelector("#right-arrow-memories");
 
 // Toggle mobile menu on hamburger button click
-hamburgerBtn.addEventListener("click", () => header.classList.toggle("show-mobile-menu"));
+
+if (hamburgerBtn){
+    hamburgerBtn.addEventListener("click", () => header.classList.toggle("show-mobile-menu"));
+}
+
 
 // Close mobile menu on close button click
+if (closeMenuBtn){
 closeMenuBtn.addEventListener("click", () => hamburgerBtn.click());
-
+}
 // Go to menu page on arrow click
-gotoMenuBtn.addEventListener("click", () => window.location.href = "menu.html");
+if (gotoMenuBtn) {
+    gotoMenuBtn.addEventListener("click", () => window.location.href = "menu.html");
+}
+
 
 // Go to explore page on arrow click
-gotoExploreBtn.addEventListener("click", () => window.location.href = "memory.html");
+if (gotoExploreBtn) {
+    gotoExploreBtn.addEventListener("click", () => window.location.href = "memory.html");
+}
 
 // Go to about page on arrow click
-gotoAboutBtn.addEventListener("click", () => window.location.href = "about.html");
+if (gotoAboutBtn) {
+    gotoAboutBtn.addEventListener("click", () => window.location.href = "about.html");
+}
 
 // Go to memories page on arrow click
-gotoMemoryArrowLeft.addEventListener("click", () => window.location.href = "memory.html");
+if (gotoMemoryArrowLeft) {
+    gotoMemoryArrowLeft.addEventListener("click", () => window.location.href = "memory.html");
+}
+
 
 // Go to about page on arrow click
-gotoAboutArrowRight.addEventListener("click", () => window.location.href = "about.html");
+if (gotoAboutArrowRight) {
+    gotoAboutArrowRight.addEventListener("click", () => window.location.href = "about.html");
+}
 
 // Go to menu page on arrow click
-gotoMenuArrowLeft.addEventListener("click", () => window.location.href = "menu.html");
+if (gotoMenuArrowLeft) {
+    gotoMenuArrowLeft.addEventListener("click", () => window.location.href = "menu.html");
+}
+
 
 // Go to memories page on arrow click
+if (gotoMemoryArrowRight) {
 gotoMemoryArrowRight.addEventListener("click", () => window.location.href = "memory.html");
-
+}
