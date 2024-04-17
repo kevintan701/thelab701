@@ -334,7 +334,7 @@ header.show-mobile-menu .navbar .menu-links {
 
 
 .show-mobile-menu #hamburger-btn,
-.show-mobile-menu #maincontent{
+.show-mobile-menu #maincontent {
     opacity: 0;
 }
 
@@ -361,8 +361,10 @@ main {
 
 .content-blur {
     filter: blur(4px);
-    pointer-events: none; /* Disable interaction with the blurred content */
-    opacity: 0.5; /* Optional: lower the opacity to visually "disable" the content */
+    pointer-events: none;
+    /* Disable interaction with the blurred content */
+    opacity: 0.5;
+    /* Optional: lower the opacity to visually "disable" the content */
 }
 
 
@@ -425,9 +427,11 @@ main {
     }
 }
 
+
+
 #home-content {
     animation: homecontentTransform 4s ease-out forwards;
-    animation-delay: 2s;
+    animation-delay: 3s;
     transform: translate(0, 200px);
     align-self: center;
     text-align: center;
@@ -688,8 +692,85 @@ main {
         padding: 0;
     }
 
-    .sub-navi-home {}
+    .content {
+        padding: 20px;
+        font-size: 2.5rem;
+    }
 
+    /* Logo Animation for Home Page */
+    @keyframes logomarkTransformHome {
+        from {
+            width: 200px;
+            opacity: 1;
+            transform: translate(140%, 150px);
+        }
+
+        75% {
+            width: 55px;
+            opacity: 1;
+            transform: translate(0px, 60px);
+            align-self: start;
+            margin-left: 40px;
+        }
+
+        to {
+            width: 55px;
+            opacity: 1;
+            transform: translate(0, 0px);
+            align-self: start;
+            margin-left: 40px;
+        }
+    }
+
+    #logo-mark-home {
+
+        width: 200px;
+        transform: translate(140%, 150px);
+    }
+
+    @keyframes subnaviTransform {
+        from {
+            opacity: 0;
+            transform: translate(8%, 400px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translate(8%, 0);
+        }
+    }
+
+    /* sub navigation for home page */
+
+    .sub-navi-home {
+        display: grid;
+        grid-template-columns: 130px 180px 180px 130px;
+        gap: 15px;
+        font-size: 1.8rem;
+        transform: translate(8%, 400px);
+        animation: subnaviTransform 4s ease-out forwards;
+        animation-delay: 3s;
+        opacity: 0;
+    }
+
+    #navigation-arrow-about {
+
+        text-align: end;
+        align-items: center;
+        height: 300px;
+        width: 100px;
+    }
+
+    /* sub navigation for other pages */
+    .sub-navi-others {
+        display: grid;
+        grid-template-columns: 40px 300px 300px 40px;
+        justify-content: center;
+        gap: 10px;
+        font-size: 1.8rem;
+        animation: subnaviTransform2 3s ease-out forwards;
+        opacity: 0;
+    }
 
 
 }

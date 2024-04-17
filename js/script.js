@@ -22,7 +22,6 @@ hamburgerBtn.addEventListener("click", () => {
     header.classList.toggle("show-mobile-menu");
     document.querySelector('#maincontent').classList.toggle('content-blur');
     document.querySelector('#hamburger-btn').classList.toggle('content-blur');
-
 });
 
 
@@ -30,6 +29,7 @@ hamburgerBtn.addEventListener("click", () => {
 if (closeMenuBtn){
 closeMenuBtn.addEventListener("click", () => hamburgerBtn.click());
 }
+
 // Go to menu page on arrow click
 if (gotoMenuBtn) {
     gotoMenuBtn.addEventListener("click", () => window.location.href = "menu.html");
