@@ -331,13 +331,7 @@ header.show-mobile-menu .navbar .menu-links {
     left: 0;
 }
 
-/* When the mobile menu is shown, apply blur to the main content and hide the hamburger button */
-.show-mobile-menu main,
-.show-mobile-menu #maincontent {
-    filter: blur(4px);
-    pointer-events: none;
-    /* Disable interaction with the blurred content */
-}
+
 
 .show-mobile-menu #hamburger-btn,
 .show-mobile-menu #maincontent{
@@ -364,6 +358,13 @@ main {
     padding: 20px;
     font-size: 2rem;
 }
+
+.content-blur {
+    filter: blur(4px);
+    pointer-events: none; /* Disable interaction with the blurred content */
+    opacity: 0.5; /* Optional: lower the opacity to visually "disable" the content */
+}
+
 
 @keyframes menutitleTransform {
     from {

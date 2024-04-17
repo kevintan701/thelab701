@@ -13,9 +13,17 @@ const gotoMemoryArrowRight = document.querySelector("#right-arrow-memories");
 
 // Toggle mobile menu on hamburger button click
 
-if (hamburgerBtn){
-    hamburgerBtn.addEventListener("click", () => header.classList.toggle("show-mobile-menu"));
-}
+// if (hamburgerBtn){
+//     hamburgerBtn.addEventListener("click", () => header.classList.toggle("show-mobile-menu"));
+//     document.querySelector('#maincontent').classList.toggle('content-blur');
+// }
+// Toggle mobile menu and blur content on hamburger button click
+hamburgerBtn.addEventListener("click", () => {
+    header.classList.toggle("show-mobile-menu");
+    document.querySelector('#maincontent').classList.toggle('content-blur');
+    document.querySelector('#hamburger-btn').classList.toggle('content-blur');
+
+});
 
 
 // Close mobile menu on close button click
