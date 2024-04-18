@@ -427,8 +427,6 @@ main {
     }
 }
 
-
-
 #home-content {
     animation: homecontentTransform 4s ease-out forwards;
     animation-delay: 3s;
@@ -625,8 +623,8 @@ main {
 
 .memorygalary {
     display: grid;
-    grid-template-columns: repeat(3, 150px);
-    grid-template-rows: repeat(2, 150px);
+    grid-template-columns: repeat(2, 150px);
+    grid-template-rows: repeat(3, 150px);
     gap: 20px;
     margin-top: 50px;
     justify-content: center;
@@ -642,13 +640,13 @@ main {
     border: 2px solid black;
 }
 
-#memory-1:hover,
-#memory-2:hover,
-#memory-3:hover,
-#memory-4:hover,
-#memory-5:hover,
-#memory-6:hover {
-    transform: scale(1.2);
+#memory-1:hover, #memory-1:focus,
+#memory-2:hover, #memory-2:focus,
+#memory-3:hover, #memory-3:focus,
+#memory-4:hover, #memory-4:focus,
+#memory-5:hover, #memory-5:focus,
+#memory-6:hover, #memory-6:focus {
+    transform: scale(1.5);
     transition: 0.5s;
     box-shadow: 0 0 10px black;
 }
