@@ -22,6 +22,7 @@ hamburgerBtn.addEventListener("click", () => {
     header.classList.toggle("show-mobile-menu");
     document.querySelector('#maincontent').classList.toggle('content-blur');
     document.querySelector('#hamburger-btn').classList.toggle('content-blur');
+    document.querySelector('#logo-mark-about').classList.toggle('content-blur');
 });
 
 
