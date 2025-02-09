@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/html5reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet">
+
+    <title>THE.LAB.701 - Menu</title>
+    <link rel="icon" type="image/svg" href="medias/Lab_Logo_white.svg">
+</head>
+
+<body>
+    <a class="skip-link" href="#maincontent">Skip to Main Content</a>
+    <header>
+        <nav class="navbar">
+            <ul class="menu-links">
+                <li><span id="close-menu-btn" class="material-symbols-outlined" tabindex="0">close</span></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="memory.html">Memory</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><span id="cart-icon" class="material-symbols-outlined" tabindex="0">shopping_cart</span></li>
+                <li><span id="cart-count">0</span></li>
+            </ul>
+            <span id="hamburger-btn" class="material-symbols-outlined" tabindex="0">menu</span>
+
+            <div id="cart-dropdown" class="cart-dropdown">
+                <button id="cart-close" class="material-symbols-outlined" onclick="closeCart()">close</button>
+                <ul id="cart-items-list"></ul>
+            </div>
+    
+
+        </nav>
+        <img src="medias/Logo_Word_Mark.png" alt="THE.LAB.701 Logo - Word Mark" id="logo-word-mark-menu" tabindex="0">
+        <img src="medias/Lab_Logo.svg" alt="THE.LAB.701 Logo - Mark" id="logo-mark-menu" tabindex="0">
+
+    </header>
+    <main id="maincontent">
+        <section class="content" id="menu-title">
+            <h1>OUR MENU</h1>
+            <section class="menu" id="menu-coffee">
+                <!-- Products will be loaded here by JavaScript -->
+                <button class="menu-nav-btn prev" aria-label="Previous items">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                <button class="menu-nav-btn next" aria-label="Next items">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </section>
+            
+
+
+            <section class="sub-navi-others">
+
+                <span id="left-arrow-memories" class="material-symbols-outlined" tabindex="0">double_arrow</span>
+
+                <div id="left-tag">
+                    <h2>701 Memories</h2>
+
+                </div>
+
+                <div id="right-tag">
+                    <h2>About 701</h2>
+                </div>
+                <span id="right-arrow-about" class="material-symbols-outlined" tabindex="0">double_arrow</span>
+
+            </section>
+        </section>
+
+        <button id="checkout-btn" class="material-symbols-outlined" onclick="window.location.href='checkout.html'">
+            payments
+        </button>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 THE.LAB.701</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

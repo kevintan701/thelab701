@@ -1,0 +1,155 @@
+const express = require('express');
+const { Pool } = require('pg');
+const path = require('path');
+const session = require('express-session');
+const { body, validationResult } = require('express-validator');
+const config = require('./config');
+const { logger, requestLogger } = require('./utils/logger');
+const { authenticateToken, isAdmin } = require('./middleware/auth');
+
+const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(express.static('public'));
+app.use(requestLogger);
+
+// Session configuration
+app.use(session({
+    secret: config.server.sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: config.server.env === 'production' }
+}));
+
+// CORS configuration
+app.use((req, res, next) => {
+    const allowedOrigins = config.server.corsOrigins;
+    const origin = req.headers.origin;
+    
+    if (allowedOrigins.includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin);
+    }
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    next();
+});
+
+// Database connection
+const pool = new Pool(config.db);
+
+// Test database connection
+pool.query('SELECT NOW()', (err, res) => {
+    if (err) {
+        logger.error('Database connection error:', err.stack);
+        process.exit(1);
+    }
+    logger.info('Database connected successfully');
+    
+    // Verify Products table
+    pool.query('SELECT * FROM Products')
+        .then(result => {
+            logger.info('Products table verified', { count: result.rows.length });
+        })
+        .catch(err => {
+            logger.error('Products table error:', err.message);
+            process.exit(1);
+        });
+});
+
+// Input validation middleware
+const validateProduct = [
+    body('name').trim().notEmpty().escape(),
+    body('price').isFloat({ min: 0 }),
+    body('quantity').optional().isInt({ min: 0 })
+];
+
+// Routes
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/menu', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'menu.html'));
+});
+
+// Protected routes
+app.get('/products', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM Products');
+        logger.info('Products retrieved successfully');
+        res.json(result.rows);
+    } catch (err) {
+        logger.error('Database error:', err);
+        res.status(500).json({
+            error: 'Database error',
+            details: err.message
+        });
+    }
+});
+
+app.post('/add-to-cart', validateProduct, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { productName, price, qty } = req.body;
+    const query = `
+        INSERT INTO cart_items (product_name, price, quantity)
+        VALUES ($1, $2, $3)
+        ON CONFLICT (product_name) DO UPDATE SET
+        quantity = cart_items.quantity + EXCLUDED.quantity,
+        price = EXCLUDED.price
+        RETURNING *;
+    `;
+    
+    try {
+        const result = await pool.query(query, [productName, price, qty]);
+        logger.info('Item added to cart', { product: productName });
+        res.json({ 
+            message: 'Added to cart',
+            item: result.rows[0]
+        });
+    } catch (err) {
+        logger.error('Error adding to cart:', err);
+        res.status(500).json({
+            error: 'Error processing add to cart request',
+            details: err.message
+        });
+    }
+});
+
+// Admin routes
+app.get('/admin/inventory', authenticateToken, isAdmin, async (req, res) => {
+    try {
+        const result = await pool.query(
+            `SELECT p.name, i.quantity, i.min_threshold, i.last_updated 
+             FROM inventory i 
+             JOIN Products p ON p.id = i.product_id`
+        );
+        res.json(result.rows);
+    } catch (err) {
+        logger.error('Error fetching inventory:', err);
+        res.status(500).json({
+            error: 'Error fetching inventory',
+            details: err.message
+        });
+    }
+});
+
+// Error handling middleware
+app.use((req, res, next) => {
+    logger.warn('Route not found:', req.url);
+    res.status(404).json({ error: 'Route not found' });
+});
+
+app.use((err, req, res, next) => {
+    logger.error('Server error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+});
+
+// Start server
+app.listen(config.server.port, () => {
+    logger.info(`Server running at http://localhost:${config.server.port}`);
+});
