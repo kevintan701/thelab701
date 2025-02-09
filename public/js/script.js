@@ -1,5 +1,42 @@
 // JavaScript for Kevin's Final Project - THE.LAB.701 website
 
+async function fetchProducts() {
+    try {
+        const response = await fetch(window.appConfig.getApiUrl('products'));
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const products = await response.json();
+        return products;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        return [];
+    }
+}
+
+async function addToCart(product) {
+    try {
+        const response = await fetch(window.appConfig.getApiUrl('cart'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(product),
+            credentials: 'include'  // Important for cookies
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        throw error;
+    }
+}
+
 function fetchProducts() {
     const productsContainer = document.getElementById('menu-coffee');
     console.log('Starting fetchProducts()', { containerExists: !!productsContainer });

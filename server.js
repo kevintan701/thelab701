@@ -6,6 +6,7 @@ const { body, validationResult } = require('express-validator');
 const config = require('./config');
 const { logger, requestLogger } = require('./utils/logger');
 const { authenticateToken, isAdmin } = require('./middleware/auth');
+const cors = require('cors');
 
 const app = express();
 
@@ -14,26 +15,28 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use(requestLogger);
 
+// Enhanced CORS configuration
+app.use(cors({
+    origin: [
+        'http://localhost:3000',
+        'https://kevintan701.github.io',
+        'http://127.0.0.1:5500'  // For Live Server if you use it
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
+
 // Session configuration
 app.use(session({
     secret: config.server.sessionSecret,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: config.server.env === 'production' }
-}));
-
-// CORS configuration
-app.use((req, res, next) => {
-    const allowedOrigins = config.server.corsOrigins;
-    const origin = req.headers.origin;
-    
-    if (allowedOrigins.includes(origin)) {
-        res.header('Access-Control-Allow-Origin', origin);
+    cookie: { 
+        secure: config.server.env === 'production',
+        sameSite: 'none'  // Required for cross-origin cookies
     }
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    next();
-});
+}));
 
 // Database connection
 const pool = new Pool(config.db);
