@@ -225,8 +225,58 @@ footer {
     padding-top: 100px;
     margin-top: 30px;
     margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
+.social-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-links a {
+    color: #333;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.social-links a:hover,
+.social-links a:focus {
+    transform: translateY(-3px);
+    color: #000;
+}
+
+.social-links .material-symbols-outlined {
+    font-size: 1.5rem;
+}
+
+/* Dark theme support for social links */
+.dark-theme .social-links a {
+    color: #fff;
+}
+
+.dark-theme .social-links a:hover,
+.dark-theme .social-links a:focus {
+    color: #ccc;
+}
+
+/* Responsive adjustments for footer */
+@media screen and (max-width: 768px) {
+    footer {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
 
 .navbar .menu-links {
     position: fixed;
@@ -2817,3 +2867,641 @@ footer {
         font-size: 0.9rem;
     }
 }
+
+/* About Page - Hero Section */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../medias/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    transform: translateZ(-1px) scale(2);
+    z-index: -1;
+}
+
+.hero-content {
+    text-align: center;
+    color: white;
+    padding: 2.5rem 3rem;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 18px;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    transform: translateZ(0);
+    max-width: 700px;
+    width: 85%;
+    margin: 0 auto;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.2;
+}
+
+.hero-content .tagline {
+    font-size: 1.2rem;
+    margin: 1.2rem 0;
+    letter-spacing: 0.1em;
+    opacity: 0.9;
+}
+
+.signature-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 2rem;
+    padding: 1.8rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+
+.handwritten {
+    font-family: 'Abhaya Libre', serif;
+    font-style: italic;
+}
+
+.handwritten p {
+    font-size: 1.6rem;
+    margin: 0.8rem 0;
+    line-height: 1.4;
+    transition: transform 0.3s ease;
+}
+
+.handwritten p:hover {
+    transform: translateY(-2px);
+}
+
+.signature {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: 1.8rem;
+    font-style: normal;
+}
+
+.cup-icon {
+    margin-top: 1rem;
+}
+
+.cup-icon .material-symbols-outlined {
+    font-size: 2rem;
+    opacity: 0.8;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .hero-content {
+        padding: 1.8rem;
+        width: 90%;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content .tagline {
+        font-size: 1.1rem;
+    }
+
+    .handwritten p {
+        font-size: 1.3rem;
+    }
+
+    .signature {
+        font-size: 1.5rem;
+    }
+}
+
+/* About Page - Story Section */
+.story-section {
+    padding: 4rem 2rem;
+    background: white;
+}
+
+.story-content {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+/* About Page - Timeline Section */
+.timeline-section {
+    padding: 4rem 2rem;
+    background: #f5f5f5;
+}
+
+.timeline {
+    position: relative;
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 2rem 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background: #000;
+    transform: translateX(-50%);
+}
+
+.timeline-item {
+    position: relative;
+    margin: 2rem 0;
+    width: calc(50% - 2rem);
+}
+
+.timeline-item:nth-child(odd) {
+    left: 0;
+    padding-right: 3rem;
+}
+
+.timeline-item:nth-child(even) {
+    left: 50%;
+    padding-left: 3rem;
+}
+
+.timeline-item::before {
+    content: attr(data-year);
+    position: absolute;
+    top: 0;
+    width: 80px;
+    height: 30px;
+    background: #000;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 15px;
+}
+
+.timeline-item:nth-child(odd)::before {
+    right: -40px;
+}
+
+.timeline-item:nth-child(even)::before {
+    left: -40px;
+}
+
+/* About Page - Stats Section */
+.stats-section {
+    padding: 4rem 2rem;
+    background: white;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 2rem;
+    background: #f5f5f5;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-10px);
+}
+
+.stat-number {
+    display: block;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.stat-label {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* About Page - Team Section */
+.team-section {
+    padding: 4rem 2rem;
+    background: #f5f5f5;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.team-card {
+    position: relative;
+    height: 350px;
+    perspective: 1000px;
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transition: transform 0.6s;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-front {
+    background: white;
+}
+
+.card-back {
+    background: #000;
+    color: white;
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.team-card:hover .card-front {
+    transform: rotateY(180deg);
+}
+
+.team-card:hover .card-back {
+    transform: rotateY(360deg);
+}
+
+.card-front img {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+}
+
+.card-front h3 {
+    margin: 1rem;
+    font-size: 1.5rem;
+}
+
+.card-front p {
+    margin: 0 1rem;
+    color: #666;
+}
+
+/* Animation Classes */
+.reveal-section {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-text {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: revealText 0.8s ease forwards;
+}
+
+@keyframes revealText {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dark Theme Adjustments */
+.dark-theme .story-section,
+.dark-theme .stats-section {
+    background: #1a1a1a;
+    color: white;
+}
+
+.dark-theme .timeline-section,
+.dark-theme .team-section {
+    background: #2a2a2a;
+    color: white;
+}
+
+.dark-theme .stat-item {
+    background: #333;
+}
+
+.dark-theme .stat-label {
+    color: #ccc;
+}
+
+.dark-theme .card-front {
+    background: #333;
+    color: white;
+}
+
+.dark-theme .card-front p {
+    color: #ccc;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .timeline::before {
+        left: 2rem;
+    }
+
+    .timeline-item {
+        width: calc(100% - 4rem);
+        padding-left: 3rem !important;
+    }
+
+    .timeline-item:nth-child(even) {
+        left: 0;
+    }
+
+    .timeline-item::before {
+        left: -40px !important;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+}
+
+/* Section Container */
+.section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Story Section */
+.story-section {
+    padding: 6rem 0;
+    background: white;
+}
+
+.story-content {
+    max-width: 800px;
+    margin: 2rem auto 0;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    text-align: center;
+}
+
+/* Section Headers */
+.reveal-section h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.reveal-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #000;
+}
+
+/* Stats Section */
+.stats-section {
+    padding: 6rem 0;
+    background: #f9f9f9;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 3rem;
+    padding: 2rem 0;
+}
+
+/* Timeline Section */
+.timeline-section {
+    padding: 6rem 0;
+    background: white;
+}
+
+/* Founder Profile */
+.founder-profile {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.founder-image {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+}
+
+.founder-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.founder-image:hover img {
+    transform: scale(1.05);
+}
+
+.founder-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.founder-header h3 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.founder-title {
+    font-size: 1.2rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.founder-quote {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    font-style: italic;
+    color: #333;
+    padding: 1.5rem;
+    background: #f9f9f9;
+    border-radius: 15px;
+    position: relative;
+}
+
+.founder-quote::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-size: 4rem;
+    color: #ddd;
+    font-family: serif;
+}
+
+.founder-values {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.value-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 12px;
+    flex: 1;
+    transition: transform 0.3s ease;
+}
+
+.value-item:hover {
+    transform: translateY(-5px);
+}
+
+.value-item .material-symbols-outlined {
+    font-size: 2rem;
+    color: #333;
+}
+
+.value-item span:last-child {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Dark Theme Adjustments */
+.dark-theme .founder-profile {
+    background: #222;
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .founder-title {
+    color: #aaa;
+}
+
+.dark-theme .founder-quote {
+    background: #2a2a2a;
+    color: #fff;
+}
+
+.dark-theme .founder-quote::before {
+    color: #444;
+}
+
+.dark-theme .value-item {
+    background: #2a2a2a;
+}
+
+.dark-theme .value-item .material-symbols-outlined {
+    color: #fff;
+}
+
+.dark-theme .reveal-section h2::after {
+    background: #fff;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .section-container {
+        padding: 0 1.5rem;
+    }
+
+    .founder-profile {
+        gap: 2rem;
+        padding: 1.5rem;
+    }
+
+    .founder-header h3 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .founder-profile {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .founder-image {
+        aspect-ratio: 16/9;
+    }
+
+    .founder-values {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .value-item {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .reveal-section h2 {
+        font-size: 2rem;
+    }
+
+    .story-content {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-container {
+        padding: 0 1rem;
+    }
+
+    .founder-header h3 {
+        font-size: 1.8rem;
+    }
+
+    .founder-quote {
+        font-size: 1rem;
+        padding: 1rem;
+    }
+}
+

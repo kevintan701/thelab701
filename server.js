@@ -152,7 +152,58 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Internal server error' });
 });
 
-// Start server
-app.listen(config.server.port, () => {
-    logger.info(`Server running at http://localhost:${config.server.port}`);
+// Function to find an available port
+const findAvailablePort = async (startPort) => {
+    const net = require('net');
+    return new Promise((resolve, reject) => {
+        const server = net.createServer();
+        server.unref();
+        server.on('error', (err) => {
+            if (err.code === 'EADDRINUSE') {
+                resolve(findAvailablePort(startPort + 1));
+            } else {
+                reject(err);
+            }
+        });
+        
+        server.listen(startPort, () => {
+            const { port } = server.address();
+            server.close(() => {
+                resolve(port);
+            });
+        });
+    });
+};
+
+// Start server with port fallback
+const startServer = async () => {
+    try {
+        const port = await findAvailablePort(config.server.port);
+        app.listen(port, () => {
+            logger.info(`Server running at http://localhost:${port}`);
+            if (port !== config.server.port) {
+                logger.warn(`Original port ${config.server.port} was in use, using port ${port} instead`);
+            }
+        });
+    } catch (error) {
+        logger.error('Failed to start server:', error);
+        process.exit(1);
+    }
+};
+
+// Handle graceful shutdown
+process.on('SIGTERM', () => {
+    logger.info('SIGTERM received. Shutting down gracefully...');
+    pool.end(() => {
+        process.exit(0);
+    });
 });
+
+process.on('SIGINT', () => {
+    logger.info('SIGINT received. Shutting down gracefully...');
+    pool.end(() => {
+        process.exit(0);
+    });
+});
+
+startServer();

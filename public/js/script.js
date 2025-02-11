@@ -733,64 +733,261 @@ changeImageSource(document.getElementById('memory-6'), 'medias/memory-6-1.JPG');
 
 // Function to create and display a video player overlay with accessible close button
 function setupVideoPopup(id, videoSrc) {
+    console.log('Setting up video popup for:', id);
+    
     const imgElement = document.getElementById(id);
-    imgElement.addEventListener('click', () => {
+    if (!imgElement) {
+        console.error('Image element not found:', id);
+        return;
+    }
+    
+    // Add hover effect to indicate video is available
+    imgElement.style.transition = 'transform 0.4s ease-out, filter 0.3s ease';
+    imgElement.style.transformOrigin = 'center center';
+    imgElement.style.willChange = 'transform';
+    imgElement.title = 'Click to play video';
+    
+    // Add hover effects with larger scale
+    imgElement.addEventListener('mouseover', () => {
+        imgElement.style.transform = 'scale(1.5)';
+        imgElement.style.filter = 'brightness(0.85)';
+        imgElement.style.zIndex = '1';
+    });
+    
+    imgElement.addEventListener('mouseout', () => {
+        imgElement.style.transform = 'scale(1)';
+        imgElement.style.filter = 'brightness(1)';
+        imgElement.style.zIndex = '0';
+    });
+
+    // Add click event listener to image
+    imgElement.addEventListener('click', handleClick);
+    
+    // Function to handle click event
+    function handleClick(event) {
+        event.preventDefault();
+        console.log('Video click triggered for:', id);
+        
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'video-overlay';
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0);
+            z-index: 999;
+            transition: background-color 0.3s ease;
+        `;
+        
+        // Create video container
         const videoContainer = document.createElement('div');
+        videoContainer.className = 'video-container';
         videoContainer.style.cssText = `
             position: fixed;
-            top: 10%;
-            left: 15%;
-            width: 70%;
-            height: 70%;
-            background-color: rgba(0, 0, 0, 0.85);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 85%;
+            max-width: 1200px;
+            background-color: #000;
             z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            overflow: hidden;
         `;
-        videoContainer.innerHTML = `
-            <div style="position: relative; width: 100%; height: 100%;">
-                <video src="${videoSrc}" width="100%" height="100%" controls autoplay style="border-radius: 10px;"></video>
-                <button aria-label="Close video" onclick="this.parentElement.parentElement.remove()" style="position: absolute; top: 10px; right: 10px; font-size: 16px; color: white; background-color: #ff0000; border: none; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer;" tabindex="0" onkeydown="if(event.key==='Enter'){this.click();}">&times;</button>
+
+        // Add loading spinner
+        const loadingSpinner = document.createElement('div');
+        loadingSpinner.className = 'loading-spinner';
+        loadingSpinner.innerHTML = `
+            <div class="spinner">
+                <span class="material-symbols-outlined">sync</span>
             </div>
         `;
-        document.body.appendChild(videoContainer);
-        // Automatically focus the close button when the video is displayed
-        const closeButton = videoContainer.querySelector('button');
-        closeButton.focus();
-        closeButton.onfocus = () => closeButton.style.outline = '2px solid cyan';
-        closeButton.onblur = () => closeButton.style.outline = 'none';
-    });
+        videoContainer.appendChild(loadingSpinner);
+
+        // Create video player
+        const videoWrapper = document.createElement('div');
+        videoWrapper.style.cssText = `
+            position: relative;
+            padding-top: 56.25%;
+            width: 100%;
+            background-color: #000;
+        `;
+        
+        const video = document.createElement('video');
+        video.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        `;
+        video.src = videoSrc;
+        video.controls = true;
+        video.autoplay = true;
+        
+        // Error handling for video
+        video.onerror = (e) => {
+            console.error('Video error:', e);
+            loadingSpinner.innerHTML = '<div style="color: white; text-align: center;">Error loading video</div>';
+        };
+
+        // Add title bar with the new title
+        const titleBar = document.createElement('div');
+        titleBar.className = 'video-title-bar';
+        titleBar.innerHTML = `
+            <div class="video-title">Stay Active, Be Well, Be Loved.</div>
+            <button aria-label="Close video" class="close-video-btn">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        `;
+        
+        // Append elements
+        videoWrapper.appendChild(video);
+        videoContainer.appendChild(titleBar);
+        videoContainer.appendChild(videoWrapper);
+        overlay.appendChild(videoContainer);
+        document.body.appendChild(overlay);
+
+        // Fade in animation
+        requestAnimationFrame(() => {
+            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+            videoContainer.style.opacity = '1';
+            videoContainer.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+
+        // Handle video loading
+        video.addEventListener('loadeddata', () => {
+            console.log('Video loaded successfully');
+            loadingSpinner.style.display = 'none';
+            video.style.opacity = '1';
+        });
+
+        // Close button functionality
+        const closeBtn = titleBar.querySelector('.close-video-btn');
+        closeBtn.addEventListener('click', closeVideo);
+        
+        // Close on overlay click
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeVideo();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', handleKeyPress);
+
+        function handleKeyPress(e) {
+            if (e.key === 'Escape') closeVideo();
+            if (e.key === ' ') {
+                e.preventDefault();
+                if (video.paused) video.play();
+                else video.pause();
+            }
+        }
+
+        function closeVideo() {
+            console.log('Closing video');
+            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+            videoContainer.style.opacity = '0';
+            videoContainer.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            
+            setTimeout(() => {
+                document.removeEventListener('keydown', handleKeyPress);
+                overlay.remove();
+            }, 300);
+        }
+    };
 }
 
-// Implement video popups for each image
-setupVideoPopup('memory-1', 'medias/video-1.mp4');
-setupVideoPopup('memory-2', 'medias/video-1.mp4');
-setupVideoPopup('memory-3', 'medias/video-1.mp4');
-setupVideoPopup('memory-4', 'medias/video-1.mp4');
-setupVideoPopup('memory-5', 'medias/video-1.mp4');
-setupVideoPopup('memory-6', 'medias/video-1.mp4');
+// Ensure the Material Icons font is loaded
+const linkElement = document.createElement('link');
+linkElement.rel = 'stylesheet';
+linkElement.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0';
+document.head.appendChild(linkElement);
 
+// Add required CSS with improved styles
+const style = document.createElement('style');
+style.textContent = `
+    .loading-spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+    }
+    
+    .spinner {
+        animation: spin 1s linear infinite;
+    }
+    
+    .spinner .material-symbols-outlined {
+        font-size: 48px;
+        color: #fff;
+    }
+    
+    .video-title-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #fff;
+    }
+    
+    .video-title {
+        font-size: 18px;
+        font-weight: 500;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        letter-spacing: 0.5px;
+    }
+    
+    .close-video-btn {
+        background: none;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .close-video-btn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+    }
+    
+    .close-video-btn:focus {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+    }
+    
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(style);
 
-
-
-// Select all logo elements for hover and focus effects
-// const logoItems = document.querySelectorAll("#logo-word-mark-home, #logo-word-mark-menu, #logo-word-mark-memory, #logo-word-mark-about, #logo-mark-home, #logo-mark-about");
-// logoItems.forEach((item) => {
-//     item.addEventListener("mouseenter", () => {
-//         item.classList.add("item-hover");
-//     });
-//     item.addEventListener("mouseleave", () => {
-//         item.classList.remove("item-hover");
-//     });
-//     item.addEventListener("focus", () => {
-//         item.classList.add("item-hover");
-//     });
-//     item.addEventListener("blur", () => {
-//         item.classList.remove("item-hover");
-//     });
-// });
+// Wait for DOM to be ready before setting up video popups
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Setting up video popups...');
+    setupVideoPopup('memory-1', 'medias/video-1.mp4');
+    setupVideoPopup('memory-2', 'medias/video-1.mp4');
+    setupVideoPopup('memory-3', 'medias/video-1.mp4');
+    setupVideoPopup('memory-4', 'medias/video-1.mp4');
+    setupVideoPopup('memory-5', 'medias/video-1.mp4');
+    setupVideoPopup('memory-6', 'medias/video-1.mp4');
+});
 
 // Menu Navigation
 document.addEventListener('DOMContentLoaded', function() {
