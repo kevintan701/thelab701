@@ -1787,34 +1787,62 @@ main {
 
 
 /* Theme Change Toggle Feature */
+/* Add smooth transitions for theme changes */
+body {
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+header {
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.navbar a,
+.menu-links,
+#cart-icon,
+#cart-count,
+#hamburger-btn,
+#close-menu-btn,
+.content,
+footer,
+.social-links a,
+.cart-dropdown,
+.product-card,
+.product-info,
+.checkout-form,
+.checkout-summary,
+.hero-content,
+.signature-message,
+.stat-item,
+.timeline-item,
+.founder-profile,
+.value-item {
+    transition: all 0.5s ease;
+}
+
 /* Dark theme styles */
 .dark-theme {
     background-color: black;
     color: white;
+    transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-
-.dark-theme header{
+.dark-theme header {
     background-color: black;
     color: white;
+    transition: background-color 0.5s ease, color 0.5s ease;
 }
-
 
 .dark-theme .navbar a.active {
     color: white;
     background-color: black;
-    border-radius: 25px;
-    padding: 5px;
-    font-weight: bold;
     border: 2px solid white;
+    transition: all 0.5s ease;
 }
 
 .dark-theme .navbar a:hover {
     color: white;
     background-color: black;
-    border-radius: 25px;
-    padding: 5px;
-    font-weight: bold;
+    transition: all 0.5s ease;
 }
 
 .dark-theme .menu-links,
@@ -1822,8 +1850,8 @@ main {
 .dark-theme #close-menu-btn {
     background-color: white;
     color: black;
+    transition: all 0.5s ease;
 }
-
 
 .dark-theme .content,
 .dark-theme footer,
@@ -1837,31 +1865,28 @@ main {
 .dark-theme #left-arrow-menu,
 .dark-theme #right-arrow-about,
 .dark-theme #left-arrow-memories,
-.dark-theme #right-arrow-memories
-{
+.dark-theme #right-arrow-memories {
     color: white;
-    /* Adjust text color for visibility */
-}
-
-.dart-theme .menu-links #cart-icon{
-    background-color: black;
-    color: white;
+    transition: color 0.5s ease;
 }
 
 .dark-theme .navbar #cart-icon {
     color: white;
     background-color: black;
+    transition: all 0.5s ease;
 }
 
-.dark-theme #cart-count{
+.dark-theme #cart-count {
     background-color: white;
     color: black;
+    transition: all 0.5s ease;
 }
 
 .dark-theme #cart-coffee {
     color: white;
     background-color: black;
     border: 2px solid white;
+    transition: all 0.5s ease;
 }
 
 .dark-theme #cart-coffee:hover,
@@ -1869,17 +1894,18 @@ main {
     color: black;
     background-color: white;
     box-shadow: 0px 0px 10px white;
+    transition: all 0.5s ease;
 }
 
-.dark-theme .cart-dropdown  #cart-items-list,
-.dark-theme .cart-dropdown  {
+.dark-theme .cart-dropdown #cart-items-list,
+.dark-theme .cart-dropdown {
     color: black;
-
+    transition: all 0.5s ease;
 }
-
 
 .dark-theme .memorygalary img {
     border: 2px solid white;
+    transition: all 0.5s ease;
 }
 
 .dark-theme #memory-1:hover,
@@ -1894,39 +1920,38 @@ main {
 .dark-theme #memory-5:focus,
 .dark-theme #memory-6:hover,
 .dark-theme #memory-6:focus {
-
-    box-shadow:  0 0 50px white;
+    box-shadow: 0 0 50px white;
+    transition: all 0.5s ease;
 }
 
-.dark-theme .checkout-item-details {
-    background: #2a2a2a;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+/* Hero content transitions */
+.dark-theme .hero-content {
+    color: white;
+    background: rgba(0, 0, 0, 0.85);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    transition: all 0.5s ease;
 }
 
-.dark-theme .checkout-item-name {
-    color: #fff;
+.dark-theme .signature-message {
+    background: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
+    color: white;
+    transition: all 0.5s ease;
 }
 
-.dark-theme .checkout-item-customization {
-    color: #ccc;
+.dark-theme .handwritten p,
+.dark-theme .signature,
+.dark-theme .cup-icon .material-symbols-outlined {
+    color: white;
+    transition: color 0.5s ease;
 }
 
-.dark-theme .checkout-item-price {
-    color: #fff;
+/* Disable transitions when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
 }
-
-.dark-theme .checkout-item-image {
-    border: 2px solid white;
-}
-
-body,
-header,
-.navbar a,
-.content,
-footer {
-    transition: background-color 0.3s, color 0.3s;
-}
-
 
 
 /* Hover Effelt to Logo Item */
@@ -2262,11 +2287,6 @@ footer {
 
 .dark-theme .cart-item-customization {
     color: #aaa;
-}
-
-.dark-theme .cart-item-buttons button:hover {
-    background: white;
-    color: #333;
 }
 
 .dark-theme .cart-summary {
