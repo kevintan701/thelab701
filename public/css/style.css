@@ -2904,6 +2904,7 @@ footer {
     width: 85%;
     margin: 0 auto;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 .hero-content h1 {
@@ -3504,5 +3505,24 @@ footer {
         font-size: 1rem;
         padding: 1rem;
     }
+}
+
+/* Dark theme support for hero content */
+.dark-theme .hero-content {
+    color: white;
+    background: rgba(0, 0, 0, 0.85);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .signature-message {
+    background: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
+    color: white;
+}
+
+.dark-theme .handwritten p,
+.dark-theme .signature,
+.dark-theme .cup-icon .material-symbols-outlined {
+    color: white;
 }
 
