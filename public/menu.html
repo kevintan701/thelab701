@@ -50,32 +50,19 @@
     <main id="maincontent">
         <section class="content" id="menu-title">
             <h1>OUR MENU</h1>
-            <section class="menu" id="menu-coffee">
+            <div class="menu" id="menu-coffee">
                 <!-- Products will be loaded here by JavaScript -->
-                <button class="menu-nav-btn prev" aria-label="Previous items">
-                    <span class="material-symbols-outlined">chevron_left</span>
-                </button>
-                <button class="menu-nav-btn next" aria-label="Next items">
-                    <span class="material-symbols-outlined">chevron_right</span>
-                </button>
-            </section>
-            
-
+            </div>
 
             <section class="sub-navi-others">
-
                 <span id="left-arrow-memories" class="material-symbols-outlined" tabindex="0">double_arrow</span>
-
                 <div id="left-tag">
                     <h2>701 Memories</h2>
-
                 </div>
-
                 <div id="right-tag">
                     <h2>About 701</h2>
                 </div>
                 <span id="right-arrow-about" class="material-symbols-outlined" tabindex="0">double_arrow</span>
-
             </section>
         </section>
 
@@ -83,6 +70,37 @@
             payments
         </button>
 
+        <!-- Product Modal -->
+        <div id="product-modal" class="modal">
+            <div class="modal-content">
+                <span id="close-modal" class="material-symbols-outlined">close</span>
+                <div class="modal-grid">
+                    <div class="modal-image-section">
+                        <img id="modal-main-image" src="" alt="Product Image">
+                        <div class="thumbnail-container"></div>
+                    </div>
+                    <div class="modal-details">
+                        <h2 id="modal-product-name"></h2>
+                        <div class="modal-price">$<span id="modal-product-price"></span></div>
+                        <p id="modal-product-description"></p>
+                        <div class="modal-customization-options"></div>
+                        <div class="modal-quantity">
+                            <label for="product-quantity">Quantity:</label>
+                            <div class="quantity-controls">
+                                <button id="decrease-qty" class="material-symbols-outlined">remove</button>
+                                <input type="number" id="product-quantity" value="1" min="1" max="10" readonly>
+                                <button id="increase-qty" class="material-symbols-outlined">add</button>
+                            </div>
+                        </div>
+                        <button id="modal-add-to-cart" class="modal-add-btn">
+                            <span class="material-symbols-outlined">shopping_cart</span>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <div class="reviews-container"></div>
+            </div>
+        </div>
     </main>
 
     <footer>
@@ -102,6 +120,22 @@
         </div>
         <p>&copy; 2025 THE.LAB.701</p>
     </footer>
+
+    <!-- Mini Music Player -->
+    <div class="mini-player">
+        <div id="youtube-player"></div>
+        <div class="player-content">
+            <img id="track-thumbnail" src="medias/Cover-M1.png" alt="Track thumbnail">
+            <div class="track-info">
+                <span id="track-name">Enjoy Your Cozy Morning</span>
+            </div>
+            <div class="player-controls">
+                <span id="prev-track" class="material-symbols-outlined" tabindex="0">skip_previous</span>
+                <span id="play-pause" class="material-symbols-outlined" tabindex="0">play_circle</span>
+                <span id="next-track" class="material-symbols-outlined" tabindex="0">skip_next</span>
+            </div>
+        </div>
+    </div>
 
     <script src="js/config.js"></script>
     <script src="js/script.js"></script>

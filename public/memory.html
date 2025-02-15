@@ -39,38 +39,243 @@
         </nav>
         <img src="medias/Logo_Word_Mark.png" alt="THE.LAB.701 Logo - Word Mark" id="logo-word-mark-memory" tabindex="0">
         <img src="medias/Lab_Logo.svg" alt="THE.LAB.701 Logo - Mark" id="logo-mark-memory" tabindex="0">
-
     </header>
+
     <main id="maincontent">
-
-        <section class="content" id="memory-title">
-            <h1>"Exploring,   Creating,    Sharing"</h1>
-
+        <!-- Video Banner Section -->
+        <section class="video-banner">
+            <video autoplay muted loop playsinline id="memory-banner-video">
+                <source src="medias/video-1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay">
+                <h1>Exploring, Creating, Sharing</h1>
+                <p>Capturing moments that make THE.LAB.701 special</p>
+            </div>
         </section>
 
-        <div class="memorygalary" id="memories">
-            <img src="medias/memory-1.jpeg" alt="memory-1" id="memory-1"  tabindex="0">
-            <img src="medias/memory-2.jpeg" alt="memory-2" id="memory-2"  tabindex="0">
-            <img src="medias/memory-3.jpeg" alt="memory-3" id="memory-3"  tabindex="0">
-            <img src="medias/memory-4.jpeg" alt="memory-4" id="memory-4"  tabindex="0">
-            <img src="medias/memory-5.jpeg" alt="memory-5" id="memory-5"  tabindex="0">
-            <img src="medias/memory-6.JPG" alt="memory-6" id="memory-6"  tabindex="0">
+        <!-- Memory Gallery Section -->
+        <section class="memory-gallery">
+            <!-- Exploring Section -->
+            <div class="memory-category">
+                <div class="category-info">
+                    <h2 class="category-title">Exploring</h2>
+                    <p class="category-description">Discovering positive energy in coffee, good weather, and friendly moments around the world</p>
+                </div>
+                <div class="slideshow-container">
+                    <div class="slides exploring-slides">
+                        <div class="slide">
+                            <img src="medias/exploring-1.JPG" alt="Exploring moment 1" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Every cup of coffee is a moment of possibility."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/exploring-2.JPG" alt="Exploring moment 2" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Find beauty in the simple moments."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/exploring-3.JPG" alt="Exploring moment 3" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Life is better with friends and coffee."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/exploring-4.JPG" alt="Exploring moment 4" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Embrace the warmth of each new day."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/exploring-5.jpg" alt="Exploring moment 5" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Let your spirit shine as bright as morning coffee."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/exploring-6.jpg" alt="Exploring moment 6" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Adventure awaits with every new discovery."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/exploring-7.jpg" alt="Exploring moment 7" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Cherish the journey, not just the destination."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/exploring-8.jpg" alt="Exploring moment 8" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Every moment is a chance to explore something new."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slideshow-nav">
+                        <button class="prev" aria-label="Previous slide">‹</button>
+                        <button class="next" aria-label="Next slide">›</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Creating Section -->
+            <div class="memory-category">
+                <div class="category-info">
+                    <h2 class="category-title">Creating</h2>
+                    <p class="category-description">Transforming real-world inspiration into digital artistry</p>
+                </div>
+                <div class="slideshow-container">
+                    <div class="slides creating-slides">
+                        <div class="slide">
+                            <img src="medias/creating-1.JPG" alt="Creating moment 1" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Where imagination meets reality."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/creating-2.JPG" alt="Creating moment 2" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Crafting dreams into digital reality."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/creating-3.JPG" alt="Creating moment 3" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Every pixel tells a story."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/creating-4.JPG" alt="Creating moment 4" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Innovation starts with inspiration."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/creating-5.png" alt="Creating moment 5" onerror="this.onerror=null; this.src=this.src.replace('.png','.jpg').replace('.JPG','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Art is the bridge between vision and reality."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/creating-6.JPG" alt="Creating moment 6" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Design is intelligence made visible."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/creating-7.JPG" alt="Creating moment 7" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Creativity takes courage."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/creating-8.JPG" alt="Creating moment 8" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Make it simple but significant."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/creating-9.JPG" alt="Creating moment 9" onerror="this.onerror=null; this.src=this.src.replace('.JPG','.jpg').replace('.jpeg','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"The details make the design."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slideshow-nav">
+                        <button class="prev" aria-label="Previous slide">‹</button>
+                        <button class="next" aria-label="Next slide">›</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sharing Section -->
+            <div class="memory-category">
+                <div class="category-info">
+                    <h2 class="category-title">Sharing</h2>
+                    <p class="category-description">Spreading joy through handwritten messages and shared moments</p>
+                </div>
+                <div class="slideshow-container">
+                    <div class="slides sharing-slides">
+                        <div class="slide">
+                            <img src="medias/sharing-1.jpeg" alt="Sharing moment 1" onerror="this.onerror=null; this.src=this.src.replace('.jpeg','.jpg').replace('.JPG','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Share happiness, one cup at a time."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/sharing-2.jpeg" alt="Sharing moment 2" onerror="this.onerror=null; this.src=this.src.replace('.jpeg','.jpg').replace('.JPG','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Words of kindness, written with love."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/sharing-3.jpeg" alt="Sharing moment 3" onerror="this.onerror=null; this.src=this.src.replace('.jpeg','.jpg').replace('.JPG','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Making memories, one message at a time."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/sharing-4.jpeg" alt="Sharing moment 4" onerror="this.onerror=null; this.src=this.src.replace('.jpeg','.jpg').replace('.JPG','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Connecting hearts through coffee."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/sharing-5.jpeg" alt="Sharing moment 5" onerror="this.onerror=null; this.src=this.src.replace('.jpeg','.jpg').replace('.JPG','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Every cup tells a story of connection."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/sharing-6.jpeg" alt="Sharing moment 6" onerror="this.onerror=null; this.src=this.src.replace('.jpeg','.jpg').replace('.JPG','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Joy multiplies when it's shared."</p>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <img src="medias/sharing-7.jpeg" alt="Sharing moment 7" onerror="this.onerror=null; this.src=this.src.replace('.jpeg','.jpg').replace('.JPG','.jpg')">
+                            <div class="slide-content">
+                                <p class="quote">"Together is a beautiful place to be."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slideshow-nav">
+                        <button class="prev" aria-label="Previous slide">‹</button>
+                        <button class="next" aria-label="Next slide">›</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comment Modal -->
+        <div id="comment-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Comments</h2>
+                <div class="comments-container">
+                    <div class="comments-list"></div>
+                    <div class="comment-form">
+                        <textarea placeholder="Add your comment..."></textarea>
+                        <button class="submit-comment">Post Comment</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <section class="sub-navi-others">
-            <span id="left-arrow-menu" class="material-symbols-outlined"  tabindex="0">double_arrow</span>
+            <span id="left-arrow-menu" class="material-symbols-outlined" tabindex="0">double_arrow</span>
             <div id="left-tag">
                 <h2>701 Menu</h2>
-
             </div>
-
             <div id="right-tag">
                 <h2>About 701</h2>
             </div>
-            <span id="right-arrow-about" class="material-symbols-outlined"  tabindex="0">double_arrow</span>
+            <span id="right-arrow-about" class="material-symbols-outlined" tabindex="0">double_arrow</span>
         </section>
-
     </main>
+
     <footer>
         <div class="social-links">
             <a href="https://www.instagram.com/the.lab.701/" target="_blank" rel="noopener noreferrer">
@@ -88,6 +293,22 @@
         </div>
         <p>&copy; 2025 THE.LAB.701</p>
     </footer>
+
+    <!-- Mini Music Player -->
+    <div class="mini-player">
+        <div id="youtube-player"></div>
+        <div class="player-content">
+            <img id="track-thumbnail" src="medias/Cover-M1.png" alt="Track thumbnail">
+            <div class="track-info">
+                <span id="track-name">Enjoy Your Cozy Morning</span>
+            </div>
+            <div class="player-controls">
+                <span id="prev-track" class="material-symbols-outlined" tabindex="0">skip_previous</span>
+                <span id="play-pause" class="material-symbols-outlined" tabindex="0">play_circle</span>
+                <span id="next-track" class="material-symbols-outlined" tabindex="0">skip_next</span>
+            </div>
+        </div>
+    </div>
 
     <script src="js/script.js"></script>
 </body>
