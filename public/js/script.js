@@ -1199,14 +1199,14 @@ document.addEventListener("DOMContentLoaded", () => {
     cartIcon?.addEventListener('click', toggleCartDropdown);
     cartCount?.addEventListener('click', toggleCartDropdown);
 
-    // Setup navigation
-    setupNavigation("#navigation-arrow-menu", "menu.html");
-    setupNavigation("#navigation-arrow-explore", "memory.html");
-    setupNavigation("#navigation-arrow-about", "about.html");
-    setupNavigation("#left-arrow-memories", "memory.html");
-    setupNavigation("#right-arrow-about", "about.html");
-    setupNavigation("#left-arrow-menu", "menu.html");
-    setupNavigation("#right-arrow-memories", "memory.html");
+    // Setup navigation with absolute paths
+    setupNavigation("#navigation-arrow-menu", "/thelab701/public/menu.html");
+    setupNavigation("#navigation-arrow-explore", "/thelab701/public/memory.html");
+    setupNavigation("#navigation-arrow-about", "/thelab701/public/about.html");
+    setupNavigation("#left-arrow-memories", "/thelab701/public/memory.html");
+    setupNavigation("#right-arrow-about", "/thelab701/public/about.html");
+    setupNavigation("#left-arrow-menu", "/thelab701/public/menu.html");
+    setupNavigation("#right-arrow-memories", "/thelab701/public/memory.html");
 
     // Setup theme
     applyTheme();
@@ -1369,19 +1369,19 @@ document.addEventListener("DOMContentLoaded", () => {
 const products = {
     'Americano 701': {
         price: 4.00,
-        images: ['medias/americano-1.jpeg', 'medias/americano-2.jpeg', 'medias/americano-3.jpeg', 'medias/americano-4.jpeg']
+        images: ['/thelab701/public/medias/americano-1.jpeg', '/thelab701/public/medias/americano-2.jpeg', '/thelab701/public/medias/americano-3.jpeg', '/thelab701/public/medias/americano-4.jpeg']
     },
     'Cold Brew 701': {
         price: 5.00,
-        images: ['medias/coldbrew-1.jpeg', 'medias/coldbrew-2.jpeg']
+        images: ['/thelab701/public/medias/coldbrew-1.jpeg', '/thelab701/public/medias/coldbrew-2.jpeg']
     },
     'Latte 701': {
         price: 6.00,
-        images: ['medias/latte-1.jpeg', 'medias/latte-2.jpeg', 'medias/latte-3.jpeg', 'medias/latte-4.jpeg']
+        images: ['/thelab701/public/medias/latte-1.jpeg', '/thelab701/public/medias/latte-2.jpeg', '/thelab701/public/medias/latte-3.jpeg', '/thelab701/public/medias/latte-4.jpeg']
     },
     'Special 701': {
         price: 7.00,
-        images: ['medias/special-1.jpeg', 'medias/special-2.jpeg', 'medias/special-3.jpeg', 'medias/special-4.jpeg', 'medias/special-5.jpeg', 'medias/special-6.jpeg', 'medias/special-7.jpeg']
+        images: ['/thelab701/public/medias/special-1.jpeg', '/thelab701/public/medias/special-2.jpeg', '/thelab701/public/medias/special-3.jpeg', '/thelab701/public/medias/special-4.jpeg', '/thelab701/public/medias/special-5.jpeg', '/thelab701/public/medias/special-6.jpeg', '/thelab701/public/medias/special-7.jpeg']
     }
 };
 
