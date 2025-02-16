@@ -1,9 +1,12 @@
 // Frontend configuration
 const config = {
-    // API base URL - automatically detect if we're running on GitHub Pages
-    apiBaseUrl: window.location.hostname === 'kevintan701.github.io' 
-        ? 'http://localhost:3000'  // Local backend server
-        : '',  // Same origin when running locally
+    // Environment detection
+    isGitHubPages: window.location.hostname === 'kevintan701.github.io',
+    
+    // API base URL - use local server when running locally
+    apiBaseUrl: window.location.hostname === 'kevintan701.github.io'
+        ? ''  // Empty for GitHub Pages - will use static data
+        : 'http://localhost:3000',  // Local backend server
     
     // API endpoints
     endpoints: {

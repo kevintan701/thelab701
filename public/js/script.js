@@ -1385,118 +1385,117 @@ const products = {
     }
 };
 
-function fetchProducts() {
-    const menuContainer = document.getElementById('menu-coffee');
-    if (!menuContainer) return;
+async function fetchProducts() {
+    try {
+        let products;
+        if (window.appConfig.isGitHubPages) {
+            // Use static data when on GitHub Pages
+            products = window.menuData.products;
+        } else {
+            // Use API when running locally
+            const response = await fetch(window.appConfig.getApiUrl('products'));
+            products = await response.json();
+        }
 
-    // Clear existing content
-    menuContainer.innerHTML = '';
+        const menuContainer = document.getElementById('menu-coffee');
+        if (!menuContainer) return;
 
-    // Add navigation buttons
-    const prevBtn = document.createElement('button');
-    prevBtn.className = 'menu-nav-btn prev';
-    prevBtn.innerHTML = '<span class="material-symbols-outlined">chevron_left</span>';
-    menuContainer.appendChild(prevBtn);
-
-    const nextBtn = document.createElement('button');
-    nextBtn.className = 'menu-nav-btn next';
-    nextBtn.innerHTML = '<span class="material-symbols-outlined">chevron_right</span>';
-    menuContainer.appendChild(nextBtn);
-
-    // Add products
-    Object.entries(products).forEach(([name, details]) => {
-        const averageRating = getAverageRating(name);
-        const reviews = productReviews[name] || [];
-        
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = `
-            <div class="product-image-container">
-                <img src="${details.images[0]}" alt="${name}" class="product-image">
-                <div class="image-hover-text">Click to see details</div>
-            </div>
-            <div class="product-info">
-                <h2>${name}</h2>
-                <h2>$${details.price.toFixed(2)}</h2>
-                <div class="product-rating">
-                    ${generateStarRating(averageRating)}
-                    <span class="rating-count">(${reviews.length} reviews)</span>
-                </div>
-                <div class="product-customization">
-                    <div class="option-group">
-                        <label>Milk Type:</label>
-                        <select class="custom-select milk-select">
-                            ${name === 'Special 701' ? 
-                                '<option value="stay_active">Stay Active</option>' :
-                                `<option value="none">No Milk</option>
-                                <option value="whole_milk" ${name === 'Latte 701' ? 'selected' : ''}>Whole Milk</option>
-                                <option value="oat_milk">Oat Milk (+$1)</option>
-                                <option value="almond_milk">Almond Milk (+$1)</option>
-                                <option value="soy_milk">Soy Milk (+$1)</option>`
-                            }
-                        </select>
-                    </div>
-                    <div class="option-group">
-                        <label>Sweetness:</label>
-                        <select class="custom-select sweetness-select">
-                            ${name === 'Special 701' ?
-                                '<option value="be_well">Be Well</option>' :
-                                `<option value="none">No Sugar</option>
-                                <option value="light_sugar">Light Sugar</option>
-                                <option value="normal_sugar">Normal Sugar</option>
-                                <option value="extra_sugar">Extra Sugar</option>`
-                            }
-                        </select>
-                    </div>
-                    <div class="option-group">
-                        <label>Temperature:</label>
-                        <select class="custom-select temperature-select">
-                            ${name === 'Cold Brew 701' ? '<option value="iced">Iced</option>' :
-                              name === 'Special 701' ? '<option value="be_loved">Be Loved</option>' :
-                              `<option value="hot">Hot</option>
-                               <option value="warm">Warm</option>
-                               <option value="iced">Iced</option>`
-                            }
-                        </select>
-                    </div>
-                </div>
-                <button id="cart-coffee" class="material-symbols-outlined">shopping_cart</button>
-            </div>
-        `;
-
-        // Add click event to show modal
-        card.querySelector('.product-image-container').addEventListener('click', () => {
-            showProductModal(name, details.price, details.images);
-        });
-
-        // Add to cart functionality
-        card.querySelector('#cart-coffee').addEventListener('click', (e) => {
-            e.stopPropagation();
-            const milk = card.querySelector('.milk-select').value;
-            const sweetness = card.querySelector('.sweetness-select').value;
-            const temperature = card.querySelector('.temperature-select').value;
+        products.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
             
-            addToCart(name, details.price, milk, sweetness, temperature);
+            const productImage = document.createElement('img');
+            productImage.src = product.images[0];
+            productImage.alt = product.name;
+            productImage.className = 'product-image';
+            
+            const productInfo = document.createElement('div');
+            productInfo.className = 'product-info';
+            
+            const namePrice = document.createElement('div');
+            namePrice.className = 'name-price';
+            
+            const name = document.createElement('h2');
+            name.textContent = product.name;
+            
+            const price = document.createElement('p');
+            price.className = 'price';
+            price.textContent = `$${product.price.toFixed(2)}`;
+            
+            const rating = document.createElement('div');
+            rating.className = 'rating';
+            rating.innerHTML = generateStarRating(product.rating);
+            
+            const reviews = document.createElement('span');
+            reviews.className = 'review-count';
+            reviews.textContent = `(${product.reviews} reviews)`;
+            
+            const customization = document.createElement('div');
+            customization.className = 'customization';
+            
+            // Add customization options
+            Object.entries(product.options).forEach(([optionName, values]) => {
+                const select = document.createElement('select');
+                select.className = 'customization-select';
+                select.setAttribute('data-option', optionName.toLowerCase().replace(/ /g, '-'));
+                
+                const label = document.createElement('label');
+                label.textContent = optionName + ':';
+                
+                values.forEach(value => {
+                    const option = document.createElement('option');
+                    option.value = value.toLowerCase().replace(/ /g, '_');
+                    option.textContent = value;
+                    select.appendChild(option);
+                });
+                
+                const selectContainer = document.createElement('div');
+                selectContainer.className = 'select-container';
+                selectContainer.appendChild(label);
+                selectContainer.appendChild(select);
+                customization.appendChild(selectContainer);
+            });
+            
+            const addButton = document.createElement('button');
+            addButton.className = 'add-to-cart';
+            addButton.innerHTML = '<span class="material-symbols-outlined">shopping_cart</span>';
+            
+            // Event listener for product image
+            productImage.addEventListener('click', () => {
+                showProductModal(product.name, product.price, product.images);
+            });
+            
+            // Event listener for add to cart button
+            addButton.addEventListener('click', () => {
+                const milkSelect = customization.querySelector('[data-option="milk-type"]');
+                const sweetnessSelect = customization.querySelector('[data-option="sweetness"]');
+                const temperatureSelect = customization.querySelector('[data-option="temperature"]');
+                
+                addToCart(
+                    product.name,
+                    product.price,
+                    milkSelect.value,
+                    sweetnessSelect.value,
+                    temperatureSelect.value
+                );
+            });
+            
+            namePrice.appendChild(name);
+            namePrice.appendChild(price);
+            
+            productInfo.appendChild(namePrice);
+            productInfo.appendChild(rating);
+            productInfo.appendChild(reviews);
+            productInfo.appendChild(customization);
+            productInfo.appendChild(addButton);
+            
+            productCard.appendChild(productImage);
+            productCard.appendChild(productInfo);
+            
+            menuContainer.appendChild(productCard);
         });
-
-        menuContainer.appendChild(card);
-    });
-
-    // Setup navigation buttons
-    prevBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menuContainer.scrollBy({
-            left: -400,
-            behavior: 'smooth'
-        });
-    });
-
-    nextBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menuContainer.scrollBy({
-            left: 400,
-            behavior: 'smooth'
-        });
-    });
+    } catch (error) {
+        console.error('Error fetching products:', error);
+    }
 }
 
