@@ -1,0 +1,56 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Americano 701",
+            "price": 4.00,
+            "image": "../medias/americano-1.jpeg",
+            "reviews": 171,
+            "rating": 4.5,
+            "options": {
+                "milk": ["No Milk", "Whole Milk", "Oat Milk", "Almond Milk"],
+                "sweetness": ["No Sugar", "Less Sugar", "Normal Sugar"],
+                "temperature": ["Hot", "Iced"]
+            }
+        },
+        {
+            "id": 2,
+            "name": "Cold Brew 701",
+            "price": 5.00,
+            "image": "../medias/coldbrew-2.jpeg",
+            "reviews": 289,
+            "rating": 4.8,
+            "options": {
+                "milk": ["No Milk", "Whole Milk", "Oat Milk", "Almond Milk"],
+                "sweetness": ["No Sugar", "Less Sugar", "Normal Sugar"],
+                "temperature": ["Iced"]
+            }
+        },
+        {
+            "id": 3,
+            "name": "Latte 701",
+            "price": 6.00,
+            "image": "../medias/latte-3.jpeg",
+            "reviews": 302,
+            "rating": 4.7,
+            "options": {
+                "milk": ["Whole Milk", "Oat Milk", "Almond Milk"],
+                "sweetness": ["No Sugar", "Less Sugar", "Normal Sugar"],
+                "temperature": ["Hot", "Iced"]
+            }
+        },
+        {
+            "id": 4,
+            "name": "Special 701",
+            "price": 7.00,
+            "image": "../medias/special-4.jpeg",
+            "reviews": 568,
+            "rating": 4.9,
+            "options": {
+                "milk": ["Stay Active"],
+                "sweetness": ["Be Well"],
+                "temperature": ["Be Loved"]
+            }
+        }
+    ]
+} 
