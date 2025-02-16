@@ -139,6 +139,117 @@
 
     <script src="js/config.js"></script>
     <script src="js/script.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const { products } = await fetchProducts();
+            const menuContainer = document.getElementById('menu-coffee');
+            if (!menuContainer) return;
+
+            // Clear existing content
+            menuContainer.innerHTML = '';
+
+            // Add navigation buttons
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'menu-nav-btn prev';
+            prevBtn.innerHTML = '<span class="material-symbols-outlined">chevron_left</span>';
+            menuContainer.appendChild(prevBtn);
+
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'menu-nav-btn next';
+            nextBtn.innerHTML = '<span class="material-symbols-outlined">chevron_right</span>';
+            menuContainer.appendChild(nextBtn);
+
+            // Add products
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-image-container">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <div class="image-hover-text">Click to see details</div>
+                    </div>
+                    <div class="product-info">
+                        <h2>${product.name}</h2>
+                        <h2>$${product.price.toFixed(2)}</h2>
+                        <div class="product-rating">
+                            ${generateStarRating(product.rating)}
+                            <span class="rating-count">(${product.reviews} reviews)</span>
+                        </div>
+                        <div class="product-customization">
+                            <div class="option-group">
+                                <label>Milk Type:</label>
+                                <select class="custom-select milk-select">
+                                    ${product.options.milk.map(option => 
+                                        `<option value="${option.toLowerCase().replace(/ /g, '_')}">${option}</option>`
+                                    ).join('')}
+                                </select>
+                            </div>
+                            <div class="option-group">
+                                <label>Sweetness:</label>
+                                <select class="custom-select sweetness-select">
+                                    ${product.options.sweetness.map(option => 
+                                        `<option value="${option.toLowerCase().replace(/ /g, '_')}">${option}</option>`
+                                    ).join('')}
+                                </select>
+                            </div>
+                            <div class="option-group">
+                                <label>Temperature:</label>
+                                <select class="custom-select temperature-select">
+                                    ${product.options.temperature.map(option => 
+                                        `<option value="${option.toLowerCase().replace(/ /g, '_')}">${option}</option>`
+                                    ).join('')}
+                                </select>
+                            </div>
+                        </div>
+                        <button id="cart-coffee" class="material-symbols-outlined">shopping_cart</button>
+                    </div>
+                `;
+
+                // Add click event to show modal
+                card.querySelector('.product-image-container').addEventListener('click', () => {
+                    showProductModal(product.name, product.price, [product.image]);
+                });
+
+                // Add to cart functionality
+                card.querySelector('#cart-coffee').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const milk = card.querySelector('.milk-select').value;
+                    const sweetness = card.querySelector('.sweetness-select').value;
+                    const temperature = card.querySelector('.temperature-select').value;
+                    
+                    addToCart(product.name, product.price, milk, sweetness, temperature);
+                });
+
+                menuContainer.appendChild(card);
+            });
+
+            // Setup navigation buttons
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menuContainer.scrollBy({
+                    left: -400,
+                    behavior: 'smooth'
+                });
+            });
+
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menuContainer.scrollBy({
+                    left: 400,
+                    behavior: 'smooth'
+                });
+            });
+        } catch (error) {
+            console.error('Error loading menu:', error);
+            // Show error message to user
+            const menuContainer = document.getElementById('menu-coffee');
+            if (menuContainer) {
+                menuContainer.innerHTML = '<p class="error-message">Sorry, we couldn\'t load the menu. Please try again later.</p>';
+            }
+        }
+    });
+    </script>
 </body>
 
 </html>

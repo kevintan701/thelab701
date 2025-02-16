@@ -1365,95 +1365,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Product data
-const products = {
-    'Americano 701': {
-        price: 4.00,
-        images: ['medias/americano-1.jpeg', 'medias/americano-2.jpeg', 'medias/americano-3.jpeg', 'medias/americano-4.jpeg']
-    },
-    'Cold Brew 701': {
-        price: 5.00,
-        images: ['medias/coldbrew-1.jpeg', 'medias/coldbrew-2.jpeg']
-    },
-    'Latte 701': {
-        price: 6.00,
-        images: ['medias/latte-1.jpeg', 'medias/latte-2.jpeg', 'medias/latte-3.jpeg', 'medias/latte-4.jpeg']
-    },
-    'Special 701': {
-        price: 7.00,
-        images: ['medias/special-1.jpeg', 'medias/special-2.jpeg', 'medias/special-3.jpeg', 'medias/special-4.jpeg', 'medias/special-5.jpeg', 'medias/special-6.jpeg', 'medias/special-7.jpeg']
-    }
-};
-
+// ==============================================
+// Menu Data Loading
+// ==============================================
 async function fetchProducts() {
     try {
-        const response = await fetch(window.appConfig.getApiUrl('products'));
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        
-        // Get the menu container
-        const menuContainer = document.querySelector('.menu-container');
-        if (!menuContainer) return;
-        
-        // Clear existing content
-        menuContainer.innerHTML = '';
-        
-        // Create and append product cards
-        data.products.forEach(product => {
-            const productCard = document.createElement('div');
-            productCard.className = 'product-card';
-            
-            const rating = product.rating;
-            const reviews = product.reviews;
-            
-            productCard.innerHTML = `
-                <img src="${product.image}" alt="${product.name}" class="product-image">
-                <h3>${product.name}</h3>
-                <p class="price">$${product.price.toFixed(2)}</p>
-                <div class="rating">
-                    ${generateStarRating(rating)}
-                    <span class="review-count">(${reviews} reviews)</span>
-                </div>
-                <div class="product-options">
-                    <div class="option">
-                        <label for="${product.id}-milk">Milk Type:</label>
-                        <select id="${product.id}-milk" class="milk-type">
-                            ${product.options.milk.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
-                        </select>
-                    </div>
-                    <div class="option">
-                        <label for="${product.id}-sweetness">Sweetness:</label>
-                        <select id="${product.id}-sweetness" class="sweetness">
-                            ${product.options.sweetness.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
-                        </select>
-                    </div>
-                    <div class="option">
-                        <label for="${product.id}-temperature">Temperature:</label>
-                        <select id="${product.id}-temperature" class="temperature">
-                            ${product.options.temperature.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
-                        </select>
-                    </div>
-                </div>
-                <button class="add-to-cart-btn" onclick="addToCart('${product.name}', ${product.price}, 
-                    document.getElementById('${product.id}-milk').value,
-                    document.getElementById('${product.id}-sweetness').value,
-                    document.getElementById('${product.id}-temperature').value)">
-                    Add to Cart
-                </button>
-            `;
-            
-            menuContainer.appendChild(productCard);
-        });
-        
+        // First try to fetch from the server
+        const response = await fetch('/api/products');
+        if (!response.ok) throw new Error('Server error');
+        return await response.json();
     } catch (error) {
-        console.error('Error fetching products:', error);
-        // Show error message to user
-        const menuContainer = document.querySelector('.menu-container');
-        if (menuContainer) {
-            menuContainer.innerHTML = '<p class="error">Failed to load products. Please try again later.</p>';
-        }
+        console.log('Falling back to static data:', error);
+        // If server fetch fails, load from static JSON
+        const staticResponse = await fetch('js/menu-data.json');
+        if (!staticResponse.ok) throw new Error('Failed to load static data');
+        return await staticResponse.json();
     }
 }
 
