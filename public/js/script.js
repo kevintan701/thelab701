@@ -1387,115 +1387,73 @@ const products = {
 
 async function fetchProducts() {
     try {
-        let products;
-        if (window.appConfig.isGitHubPages) {
-            // Use static data when on GitHub Pages
-            products = window.menuData.products;
-        } else {
-            // Use API when running locally
-            const response = await fetch(window.appConfig.getApiUrl('products'));
-            products = await response.json();
+        const response = await fetch(window.appConfig.getApiUrl('products'));
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-
-        const menuContainer = document.getElementById('menu-coffee');
+        const data = await response.json();
+        
+        // Get the menu container
+        const menuContainer = document.querySelector('.menu-container');
         if (!menuContainer) return;
-
-        products.forEach(product => {
+        
+        // Clear existing content
+        menuContainer.innerHTML = '';
+        
+        // Create and append product cards
+        data.products.forEach(product => {
             const productCard = document.createElement('div');
             productCard.className = 'product-card';
             
-            const productImage = document.createElement('img');
-            productImage.src = product.images[0];
-            productImage.alt = product.name;
-            productImage.className = 'product-image';
+            const rating = product.rating;
+            const reviews = product.reviews;
             
-            const productInfo = document.createElement('div');
-            productInfo.className = 'product-info';
-            
-            const namePrice = document.createElement('div');
-            namePrice.className = 'name-price';
-            
-            const name = document.createElement('h2');
-            name.textContent = product.name;
-            
-            const price = document.createElement('p');
-            price.className = 'price';
-            price.textContent = `$${product.price.toFixed(2)}`;
-            
-            const rating = document.createElement('div');
-            rating.className = 'rating';
-            rating.innerHTML = generateStarRating(product.rating);
-            
-            const reviews = document.createElement('span');
-            reviews.className = 'review-count';
-            reviews.textContent = `(${product.reviews} reviews)`;
-            
-            const customization = document.createElement('div');
-            customization.className = 'customization';
-            
-            // Add customization options
-            Object.entries(product.options).forEach(([optionName, values]) => {
-                const select = document.createElement('select');
-                select.className = 'customization-select';
-                select.setAttribute('data-option', optionName.toLowerCase().replace(/ /g, '-'));
-                
-                const label = document.createElement('label');
-                label.textContent = optionName + ':';
-                
-                values.forEach(value => {
-                    const option = document.createElement('option');
-                    option.value = value.toLowerCase().replace(/ /g, '_');
-                    option.textContent = value;
-                    select.appendChild(option);
-                });
-                
-                const selectContainer = document.createElement('div');
-                selectContainer.className = 'select-container';
-                selectContainer.appendChild(label);
-                selectContainer.appendChild(select);
-                customization.appendChild(selectContainer);
-            });
-            
-            const addButton = document.createElement('button');
-            addButton.className = 'add-to-cart';
-            addButton.innerHTML = '<span class="material-symbols-outlined">shopping_cart</span>';
-            
-            // Event listener for product image
-            productImage.addEventListener('click', () => {
-                showProductModal(product.name, product.price, product.images);
-            });
-            
-            // Event listener for add to cart button
-            addButton.addEventListener('click', () => {
-                const milkSelect = customization.querySelector('[data-option="milk-type"]');
-                const sweetnessSelect = customization.querySelector('[data-option="sweetness"]');
-                const temperatureSelect = customization.querySelector('[data-option="temperature"]');
-                
-                addToCart(
-                    product.name,
-                    product.price,
-                    milkSelect.value,
-                    sweetnessSelect.value,
-                    temperatureSelect.value
-                );
-            });
-            
-            namePrice.appendChild(name);
-            namePrice.appendChild(price);
-            
-            productInfo.appendChild(namePrice);
-            productInfo.appendChild(rating);
-            productInfo.appendChild(reviews);
-            productInfo.appendChild(customization);
-            productInfo.appendChild(addButton);
-            
-            productCard.appendChild(productImage);
-            productCard.appendChild(productInfo);
+            productCard.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" class="product-image">
+                <h3>${product.name}</h3>
+                <p class="price">$${product.price.toFixed(2)}</p>
+                <div class="rating">
+                    ${generateStarRating(rating)}
+                    <span class="review-count">(${reviews} reviews)</span>
+                </div>
+                <div class="product-options">
+                    <div class="option">
+                        <label for="${product.id}-milk">Milk Type:</label>
+                        <select id="${product.id}-milk" class="milk-type">
+                            ${product.options.milk.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="option">
+                        <label for="${product.id}-sweetness">Sweetness:</label>
+                        <select id="${product.id}-sweetness" class="sweetness">
+                            ${product.options.sweetness.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="option">
+                        <label for="${product.id}-temperature">Temperature:</label>
+                        <select id="${product.id}-temperature" class="temperature">
+                            ${product.options.temperature.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                        </select>
+                    </div>
+                </div>
+                <button class="add-to-cart-btn" onclick="addToCart('${product.name}', ${product.price}, 
+                    document.getElementById('${product.id}-milk').value,
+                    document.getElementById('${product.id}-sweetness').value,
+                    document.getElementById('${product.id}-temperature').value)">
+                    Add to Cart
+                </button>
+            `;
             
             menuContainer.appendChild(productCard);
         });
+        
     } catch (error) {
         console.error('Error fetching products:', error);
+        // Show error message to user
+        const menuContainer = document.querySelector('.menu-container');
+        if (menuContainer) {
+            menuContainer.innerHTML = '<p class="error">Failed to load products. Please try again later.</p>';
+        }
     }
 }
 
