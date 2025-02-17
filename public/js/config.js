@@ -1,18 +1,13 @@
 // Frontend configuration
 const config = {
-    // Environment detection
-    isGitHubPages: window.location.hostname === 'kevintan701.github.io',
-    
-    // API base URL - use static data on GitHub Pages, backend API locally
-    apiBaseUrl: window.location.hostname === 'kevintan701.github.io'
-        ? '/thelab701/data'  // Path to static JSON files on GitHub Pages
+    // API base URL - automatically detect if we're running on GitHub Pages
+    apiBaseUrl: window.location.hostname === 'kevintan701.github.io' 
+        ? 'http://localhost:3000'  // Local backend server
         : '',  // Same origin when running locally
     
     // API endpoints
     endpoints: {
-        products: window.location.hostname === 'kevintan701.github.io' 
-            ? '/menu-data.json'  // Static JSON file for GitHub Pages
-            : '/products',  // Backend API endpoint for local
+        products: '/products',
         cart: '/add-to-cart',
         inventory: '/admin/inventory'
     },

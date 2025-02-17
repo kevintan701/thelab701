@@ -175,33 +175,50 @@ window.addEventListener('beforeunload', () => {
 // Shopping Cart Functions
 // ==============================================
 function saveCart() {
-    localStorage.setItem("shoppingCart", JSON.stringify(cart));
+    try {
+        localStorage.setItem("shoppingCart", JSON.stringify(cart));
+    } catch (error) {
+        console.error('Error saving cart:', error);
+    }
 }
 
 function loadCart() {
-    cart = JSON.parse(localStorage.getItem("shoppingCart")) || {};
-    updateCartDropdown();
+    try {
+        const savedCart = localStorage.getItem("shoppingCart");
+        cart = savedCart ? JSON.parse(savedCart) : {};
+        updateCartDropdown();
+        updateCartCount();
+    } catch (error) {
+        console.error('Error loading cart:', error);
+        cart = {};
+    }
 }
 
 function updateCartCount() {
+    const cartCountElement = document.getElementById('cart-count');
+    if (!cartCountElement) return;
+    
     const count = Object.values(cart).reduce((acc, { customizations }) => 
         acc + customizations.reduce((acc, { qty }) => acc + qty, 0), 0);
-    document.getElementById('cart-count').textContent = count;
+    cartCountElement.textContent = count;
 }
 
 function toggleCartDropdown() {
     const cartDropdown = document.getElementById('cart-dropdown');
+    if (!cartDropdown) return;
+    
     const mainContent = document.querySelector('main');
     const footerContent = document.querySelector('footer');
     
     if (cartDropdown.style.display === 'block') {
         cartDropdown.style.display = 'none';
-        mainContent.style.filter = '';
-        footerContent.style.filter = '';
+        if (mainContent) mainContent.style.filter = '';
+        if (footerContent) footerContent.style.filter = '';
     } else {
         cartDropdown.style.display = 'block';
-        mainContent.style.filter = 'blur(4px)';
-        footerContent.style.filter = 'blur(4px)';
+        if (mainContent) mainContent.style.filter = 'blur(4px)';
+        if (footerContent) footerContent.style.filter = 'blur(4px)';
+        updateCartDropdown(); // Refresh cart contents when showing
     }
 }
 
@@ -1249,9 +1266,9 @@ document.addEventListener("DOMContentLoaded", () => {
         loadCheckoutSummary();
     }
 
-    // Initialize menu if on menu page
+    // Load product data if on menu page
     if (document.getElementById('menu-coffee')) {
-        fetchProducts();
+        loadProductData();
     }
 
     // Initialize like counts
@@ -1365,21 +1382,152 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// ==============================================
-// Menu Data Loading
-// ==============================================
-async function fetchProducts() {
+// Product data
+let products = {};
+
+async function loadProductData() {
     try {
-        // First try to fetch from the server
-        const response = await fetch('/api/products');
-        if (!response.ok) throw new Error('Server error');
-        return await response.json();
+        const response = await fetch('data/menu-data.json');  // Remove leading slash for relative path
+        const data = await response.json();
+        products = data.products;
+        fetchProducts();
     } catch (error) {
-        console.log('Falling back to static data:', error);
-        // If server fetch fails, load from static JSON
-        const staticResponse = await fetch('js/menu-data.json');
-        if (!staticResponse.ok) throw new Error('Failed to load static data');
-        return await staticResponse.json();
+        console.error('Error loading product data:', error);
+        // Fallback to hardcoded data if JSON fetch fails
+        products = {
+            'Americano 701': {
+                price: 4.00,
+                images: ['medias/americano-1.jpeg', 'medias/americano-2.jpeg', 'medias/americano-3.jpeg', 'medias/americano-4.jpeg']
+            },
+            'Cold Brew 701': {
+                price: 5.00,
+                images: ['medias/coldbrew-1.jpeg', 'medias/coldbrew-2.jpeg']
+            },
+            'Latte 701': {
+                price: 6.00,
+                images: ['medias/latte-1.jpeg', 'medias/latte-2.jpeg', 'medias/latte-3.jpeg', 'medias/latte-4.jpeg']
+            },
+            'Special 701': {
+                price: 7.00,
+                images: ['medias/special-1.jpeg', 'medias/special-2.jpeg', 'medias/special-3.jpeg', 'medias/special-4.jpeg', 'medias/special-5.jpeg', 'medias/special-6.jpeg', 'medias/special-7.jpeg']
+            }
+        };
+        fetchProducts();
     }
+}
+
+function fetchProducts() {
+    const menuContainer = document.getElementById('menu-coffee');
+    if (!menuContainer) return;
+
+    // Clear existing content
+    menuContainer.innerHTML = '';
+
+    // Add navigation buttons
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'menu-nav-btn prev';
+    prevBtn.innerHTML = '<span class="material-symbols-outlined">chevron_left</span>';
+    menuContainer.appendChild(prevBtn);
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'menu-nav-btn next';
+    nextBtn.innerHTML = '<span class="material-symbols-outlined">chevron_right</span>';
+    menuContainer.appendChild(nextBtn);
+
+    // Add products
+    Object.entries(products).forEach(([name, details]) => {
+        const averageRating = getAverageRating(name);
+        const reviews = productReviews[name] || [];
+        
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <div class="product-image-container">
+                <img src="${details.images[0]}" alt="${name}" class="product-image">
+                <div class="image-hover-text">Click to see details</div>
+            </div>
+            <div class="product-info">
+                <h2>${name}</h2>
+                <h2>$${details.price.toFixed(2)}</h2>
+                <div class="product-rating">
+                    ${generateStarRating(averageRating)}
+                    <span class="rating-count">(${reviews.length} reviews)</span>
+                </div>
+                <div class="product-customization">
+                    <div class="option-group">
+                        <label>Milk Type:</label>
+                        <select class="custom-select milk-select">
+                            ${name === 'Special 701' ? 
+                                '<option value="stay_active">Stay Active</option>' :
+                                `<option value="none">No Milk</option>
+                                <option value="whole_milk" ${name === 'Latte 701' ? 'selected' : ''}>Whole Milk</option>
+                                <option value="oat_milk">Oat Milk (+$1)</option>
+                                <option value="almond_milk">Almond Milk (+$1)</option>
+                                <option value="soy_milk">Soy Milk (+$1)</option>`
+                            }
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label>Sweetness:</label>
+                        <select class="custom-select sweetness-select">
+                            ${name === 'Special 701' ?
+                                '<option value="be_well">Be Well</option>' :
+                                `<option value="none">No Sugar</option>
+                                <option value="light_sugar">Light Sugar</option>
+                                <option value="normal_sugar">Normal Sugar</option>
+                                <option value="extra_sugar">Extra Sugar</option>`
+                            }
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label>Temperature:</label>
+                        <select class="custom-select temperature-select">
+                            ${name === 'Cold Brew 701' ? '<option value="iced">Iced</option>' :
+                              name === 'Special 701' ? '<option value="be_loved">Be Loved</option>' :
+                              `<option value="hot">Hot</option>
+                               <option value="warm">Warm</option>
+                               <option value="iced">Iced</option>`
+                            }
+                        </select>
+                    </div>
+                </div>
+                <button id="cart-coffee" class="material-symbols-outlined">shopping_cart</button>
+            </div>
+        `;
+
+        // Add click event to show modal
+        card.querySelector('.product-image-container').addEventListener('click', () => {
+            showProductModal(name, details.price, details.images);
+        });
+
+        // Add to cart functionality
+        card.querySelector('#cart-coffee').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const milk = card.querySelector('.milk-select').value;
+            const sweetness = card.querySelector('.sweetness-select').value;
+            const temperature = card.querySelector('.temperature-select').value;
+            
+            addToCart(name, details.price, milk, sweetness, temperature);
+        });
+
+        menuContainer.appendChild(card);
+    });
+
+    // Setup navigation buttons
+    prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menuContainer.scrollBy({
+            left: -400,
+            behavior: 'smooth'
+        });
+    });
+
+    nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menuContainer.scrollBy({
+            left: 400,
+            behavior: 'smooth'
+        });
+    });
 }
 
