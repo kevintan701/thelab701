@@ -31,6 +31,11 @@ const playlist = [
         name: "6 AM",
         youtubeId: "kGnc77jVGyY",
         thumbnail: "medias/Cover-M4.png"
+    },
+    {
+        name: "Going Somewhere Warm With you",
+        youtubeId: "_P2khewAx6Q",
+        thumbnail: "medias/Cover-M5.png"
     }
 ];
 
