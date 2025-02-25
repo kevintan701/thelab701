@@ -69,6 +69,49 @@ function initializeCheckout() {
             submitOrder();
         }
     });
+
+    // Add trust indicators and security badges
+    const checkoutForm = document.querySelector('.checkout-form');
+    if (checkoutForm) {
+        const trustIndicators = document.createElement('div');
+        trustIndicators.className = 'trust-indicators';
+        trustIndicators.innerHTML = `
+            <div class="security-badges">
+                <div class="badge">
+                    <span class="material-symbols-outlined">security</span>
+                    <span>Secure Checkout</span>
+                </div>
+                <div class="badge">
+                    <span class="material-symbols-outlined">lock</span>
+                    <span>SSL Encrypted</span>
+                </div>
+                <div class="badge">
+                    <span class="material-symbols-outlined">verified_user</span>
+                    <span>Verified by Visa</span>
+                </div>
+            </div>
+        `;
+        checkoutForm.appendChild(trustIndicators);
+    }
+
+    // Add interactive progress feedback
+    const progressSteps = document.querySelectorAll('.progress-step');
+    progressSteps.forEach(step => {
+        step.addEventListener('click', () => {
+            const targetStep = parseInt(step.dataset.step);
+            if (targetStep < currentStep) {
+                updateCheckoutStep(targetStep);
+            }
+        });
+    });
+
+    // Add real-time validation feedback
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.addEventListener('input', () => {
+            validateInput(input);
+        });
+    });
 }
 
 function updateCheckoutStep(step) {
@@ -218,6 +261,43 @@ function updateReviewSection() {
     }
 }
 
+function createConfetti() {
+    const colors = ['#ff718d', '#fdbb2d', '#22c1c3', '#ff9a9e', '#a1c4fd'];
+    const confettiCount = 150;
+    
+    for (let i = 0; i < confettiCount; i++) {
+        setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            
+            // Random initial position across the width of the screen
+            const startingPosition = Math.random() * window.innerWidth;
+            confetti.style.left = `${startingPosition}px`;
+            
+            // Random confetti color
+            confetti.style.setProperty('--confetti-color', colors[Math.floor(Math.random() * colors.length)]);
+            
+            // Random rotation and delay
+            const randomRotation = Math.random() * 360;
+            const randomDelay = Math.random() * 1; // Reduced from 2s to 1s max delay
+            confetti.style.transform = `rotate(${randomRotation}deg)`;
+            confetti.style.animationDelay = `${randomDelay}s`;
+            
+            // Random size variation
+            const size = 8 + Math.random() * 8; // Between 8px and 16px
+            confetti.style.width = `${size}px`;
+            confetti.style.height = `${size}px`;
+            
+            document.body.appendChild(confetti);
+            
+            // Remove confetti element after animation
+            setTimeout(() => {
+                confetti.remove();
+            }, 2500); // Reduced from 6000ms to 3000ms to match new animation duration
+        }, i * 5); // Reduced from 20ms to 10ms for faster creation
+    }
+}
+
 function submitOrder() {
     const deliveryMethod = document.querySelector('.delivery-option.selected');
     const paymentMethod = document.querySelector('.payment-method.selected');
@@ -241,10 +321,57 @@ function submitOrder() {
         cart: savedCart
     };
 
-    // Show success modal
+    // Show animated success modal with emojis and icons
     const modal = document.getElementById('success-modal');
     if (modal) {
+        // Generate order number
+        const orderNumber = `THE${Math.floor(Math.random() * 900000) + 100000}`;
+        
+        modal.innerHTML = `
+            <div class="modal-content success-animation">
+                <div class="success-icon">
+                    <span class="material-symbols-outlined checkmark">check_circle</span>
+                </div>
+                <div class="success-message">
+                    <h2>🎉 Thank You for Your Order! 🎉</h2>
+                    <div class="order-details">
+                        <p class="order-number">Order #${orderNumber}</p>
+                        <p class="confirmation-sent">✉️ Confirmation sent to ${orderData.customerInfo.email}</p>
+                    </div>
+                    <div class="delivery-info">
+                        ${deliveryMethod.dataset.method === 'delivery' ? 
+                            `<p>🚚 Your order will be delivered to:</p>
+                             <p class="address">${orderData.customerInfo.address}, ${orderData.customerInfo.city}</p>` :
+                            `<p>⏰ Pickup time: ${orderData.customerInfo.pickupTime}</p>
+                             <p>📍 Visit us at THE.LAB.701</p>`
+                        }
+                    </div>
+                    <div class="next-steps">
+                        <p>What's next?</p>
+                        <ul>
+                            <li>✅ Check your email for order details</li>
+                            <li>📱 Track your order in real-time</li>
+                            <li>☕ Get ready for amazing coffee!</li>
+                        </ul>
+                    </div>
+                    <div class="action-buttons">
+                        <button onclick="window.location.href='index.html'" class="cart-checkout-btn">
+                            <span class="material-symbols-outlined">home</span>
+                            Return to Home
+                        </button>
+                        <button onclick="window.location.href='menu.html'" class="cart-checkout-btn">
+                            <span class="material-symbols-outlined">coffee</span>
+                            Order More
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
         modal.style.display = 'flex';
+        
+        // Create celebration effect
+        createConfetti();
         
         // Clear cart data
         localStorage.removeItem('checkoutCart');
@@ -254,15 +381,44 @@ function submitOrder() {
         if (typeof updateCartCount === 'function') {
             updateCartCount();
         }
-        
-        // Add event listener to close modal and redirect
-        const returnHomeButton = modal.querySelector('.primary-button');
-        if (returnHomeButton) {
-            returnHomeButton.addEventListener('click', () => {
-                window.location.href = 'index.html';
-            });
-        }
     }
+}
+
+function validateInput(input) {
+    const field = input.id;
+    let isValid = true;
+    let message = '';
+
+    switch(field) {
+        case 'email':
+            isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
+            message = isValid ? '✅ Valid email' : 'Please enter a valid email';
+            break;
+        case 'phone':
+            isValid = /^\d{10}$/.test(input.value.replace(/\D/g, ''));
+            message = isValid ? '✅ Valid phone number' : 'Please enter a valid 10-digit phone number';
+            break;
+        case 'card':
+            isValid = /^\d{16}$/.test(input.value.replace(/\D/g, ''));
+            message = isValid ? '✅ Valid card number' : 'Please enter a valid 16-digit card number';
+            break;
+        // Add more validation cases as needed
+    }
+
+    // Show validation feedback
+    let feedback = input.parentElement.querySelector('.validation-feedback');
+    if (!feedback) {
+        feedback = document.createElement('div');
+        feedback.className = 'validation-feedback';
+        input.parentElement.appendChild(feedback);
+    }
+    
+    feedback.textContent = message;
+    feedback.className = `validation-feedback ${isValid ? 'valid' : 'invalid'}`;
+    input.classList.toggle('valid', isValid);
+    input.classList.toggle('invalid', !isValid);
+
+    return isValid;
 }
 
 // Initialize checkout process when the page loads
