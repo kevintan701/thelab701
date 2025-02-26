@@ -654,7 +654,7 @@ function showProductModal(product, price, images) {
                         <span class="reviewer-name">${review.name}</span>
                         <span class="review-date">${new Date(review.time).toLocaleDateString()}</span>
                     </div>
-                    <div class="review-rating">
+                    <div class="review-rating" style="justify-content: flex-start;">
                         ${generateStarRating(review.rating)}
                     </div>
                     <p class="review-content">${review.content}</p>
@@ -828,7 +828,7 @@ function showProductModal(product, price, images) {
                     <span class="reviewer-name">${review.name}</span>
                     <span class="review-date">${new Date(review.time).toLocaleDateString()}</span>
                 </div>
-                <div class="review-rating">
+                <div class="review-rating" style="justify-content: flex-start;">
                     ${generateStarRating(review.rating)}
                 </div>
                 <p class="review-content">${review.content}</p>
