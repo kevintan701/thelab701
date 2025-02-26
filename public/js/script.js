@@ -1018,82 +1018,155 @@ function addToCart(product, basePrice, milkType, sweetness, temperature) {
 // Memory Gallery Video Functions
 // ==============================================
 function setupMemoryGallery() {
-    const memoryImages = document.querySelectorAll('.memorygalary img');
-    const videoModal = document.createElement('div');
-    videoModal.id = 'video-modal';
-    videoModal.className = 'modal';
-    videoModal.innerHTML = `
-        <div class="modal-content">
-            <span id="close-video-modal" class="material-symbols-outlined">close</span>
-            <div id="video-container">
-                <video id="memory-video" controls>
-                    <source src="medias/video-1.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(videoModal);
+    const categories = [
+        {
+            title: 'Exploring',
+            description: 'Discovering positive energy in coffee, good weather, and friendly moments around the world',
+            images: Array.from({ length: 8 }, (_, i) => `exploring-${i + 1}`),
+            quotes: [
+                "Every cup of coffee is a moment of possibility.",
+                "Find beauty in the simple moments.",
+                "Life is better with friends and coffee.",
+                "Embrace the warmth of each new day.",
+                "Let your spirit shine as bright as morning coffee.",
+                "Adventure awaits with every new discovery.",
+                "Cherish the journey, not just the destination.",
+                "Every moment is a chance to explore something new."
+            ]
+        },
+        {
+            title: 'Creating',
+            description: 'Transforming real-world inspiration into digital artistry',
+            images: Array.from({ length: 9 }, (_, i) => `creating-${i + 1}`),
+            quotes: [
+                "Where imagination meets reality.",
+                "Crafting dreams into digital reality.",
+                "Every pixel tells a story.",
+                "Innovation starts with inspiration.",
+                "Art is the bridge between vision and reality.",
+                "Design is intelligence made visible.",
+                "Creativity takes courage.",
+                "Make it simple but significant.",
+                "The details make the design."
+            ]
+        },
+        {
+            title: 'Sharing',
+            description: 'Spreading joy through handwritten messages and shared moments',
+            images: Array.from({ length: 7 }, (_, i) => `sharing-${i + 1}`),
+            quotes: [
+                "Share happiness, one cup at a time.",
+                "Words of kindness, written with love.",
+                "Making memories, one message at a time.",
+                "Connecting hearts through coffee.",
+                "Every cup tells a story of connection.",
+                "Joy multiplies when it's shared.",
+                "Together is a beautiful place to be."
+            ]
+        }
+    ];
 
-    const video = document.getElementById('memory-video');
-    const closeBtn = document.getElementById('close-video-modal');
-    let wasMusicPlaying = false;
+    const memoryGallery = document.querySelector('.memory-gallery');
+    if (!memoryGallery) return;
 
-    memoryImages.forEach(img => {
-        img.addEventListener('click', () => {
-            // Check if music is playing and pause it
-            if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
-                wasMusicPlaying = true;
-                player.pauseVideo();
-            }
+    // Clear existing content
+    memoryGallery.innerHTML = '';
 
-            videoModal.style.display = 'block';
-            video.play();
+    // Create categories
+    categories.forEach(category => {
+        const categorySection = document.createElement('div');
+        categorySection.className = 'memory-category';
+
+        // Category info
+        const categoryInfo = document.createElement('div');
+        categoryInfo.className = 'category-info';
+
+        const categoryTitle = document.createElement('h2');
+        categoryTitle.className = 'category-title';
+        categoryTitle.textContent = category.title;
+
+        const categoryDescription = document.createElement('p');
+        categoryDescription.className = 'category-description';
+        categoryDescription.textContent = category.description;
+
+        categoryInfo.appendChild(categoryTitle);
+        categoryInfo.appendChild(categoryDescription);
+
+        // Slideshow container
+        const slideshowContainer = document.createElement('div');
+        slideshowContainer.className = 'slideshow-container';
+
+        const slides = document.createElement('div');
+        slides.className = `slides ${category.title.toLowerCase()}-slides`;
+
+        // Create slides
+        category.images.forEach((image, index) => {
+            const slide = document.createElement('div');
+            slide.className = 'slide';
+            if (index === 0) slide.classList.add('active');
+
+            const img = document.createElement('img');
+            // Try different image formats with error handling
+            img.onerror = function() {
+                // If one format fails, try another
+                const currentSrc = this.src;
+                if (currentSrc.endsWith('.JPG')) {
+                    this.src = currentSrc.replace('.JPG', '.jpg');
+                } else if (currentSrc.endsWith('.jpg')) {
+                    this.src = currentSrc.replace('.jpg', '.png');
+                } else if (currentSrc.endsWith('.png')) {
+                    this.src = currentSrc.replace('.png', '.jpeg');
+                } else if (currentSrc.endsWith('.jpeg')) {
+                    // If all formats fail, use a placeholder
+                    this.src = 'medias/placeholder.jpg';
+                    console.warn(`Could not load image: ${image}`);
+                }
+            };
+            
+            // Initial source attempt
+            img.src = `medias/${image}.JPG`;
+            img.alt = `${category.title} moment ${index + 1}`;
+
+            const slideContent = document.createElement('div');
+            slideContent.className = 'slide-content';
+
+            const quote = document.createElement('p');
+            quote.className = 'quote';
+            quote.textContent = category.quotes[index];
+
+            slideContent.appendChild(quote);
+            slide.appendChild(img);
+            slide.appendChild(slideContent);
+            slides.appendChild(slide);
         });
+
+        const slideshowNav = document.createElement('div');
+        slideshowNav.className = 'slideshow-nav';
+
+        const prevButton = document.createElement('button');
+        prevButton.className = 'prev';
+        prevButton.innerHTML = '‹';
+        prevButton.setAttribute('aria-label', 'Previous slide');
+
+        const nextButton = document.createElement('button');
+        nextButton.className = 'next';
+        nextButton.innerHTML = '›';
+        nextButton.setAttribute('aria-label', 'Next slide');
+
+        slideshowNav.appendChild(prevButton);
+        slideshowNav.appendChild(nextButton);
+
+        slideshowContainer.appendChild(slides);
+        slideshowContainer.appendChild(slideshowNav);
+
+        categorySection.appendChild(categoryInfo);
+        categorySection.appendChild(slideshowContainer);
+
+        memoryGallery.appendChild(categorySection);
     });
 
-    // Close modal when clicking the close button
-    closeBtn.addEventListener('click', () => {
-        video.pause();
-        video.currentTime = 0;
-        videoModal.style.display = 'none';
-
-        // Resume music if it was playing before
-        if (wasMusicPlaying && player) {
-            player.playVideo();
-            wasMusicPlaying = false;
-        }
-    });
-
-    // Close modal when clicking outside
-    videoModal.addEventListener('click', (e) => {
-        if (e.target === videoModal) {
-            video.pause();
-            video.currentTime = 0;
-            videoModal.style.display = 'none';
-
-            // Resume music if it was playing before
-            if (wasMusicPlaying && player) {
-                player.playVideo();
-                wasMusicPlaying = false;
-            }
-        }
-    });
-
-    // Handle ESC key to close modal
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && videoModal.style.display === 'block') {
-            video.pause();
-            video.currentTime = 0;
-            videoModal.style.display = 'none';
-
-            // Resume music if it was playing before
-            if (wasMusicPlaying && player) {
-                player.playVideo();
-                wasMusicPlaying = false;
-            }
-        }
-    });
+    // Initialize slideshows
+    setupSlideshows();
 }
 
 // ==============================================
@@ -1107,12 +1180,46 @@ function setupSlideshows() {
         const prevBtn = container.querySelector('.prev');
         const nextBtn = container.querySelector('.next');
         let currentSlide = 0;
+        const autoplayDuration = 7000; // Increased to 7 seconds for better user experience
         
         // Get the total number of slides for this specific slideshow
-        const totalSlides = container.querySelectorAll('.slide').length;
+        const slideElements = container.querySelectorAll('.slide');
+        const totalSlides = slideElements.length;
+        
+        // Create indicator dots
+        const indicatorsContainer = document.createElement('div');
+        indicatorsContainer.className = 'slide-indicators';
+        
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'slide-dot';
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                goToSlide(i);
+                resetAutoplay();
+            });
+            indicatorsContainer.appendChild(dot);
+        }
+        
+        container.appendChild(indicatorsContainer);
+        
+        // Mark first slide as active
+        slideElements[0].classList.add('active');
         
         // Function to move to a specific slide
         function goToSlide(slideIndex) {
+            // Remove active class from all slides
+            slideElements.forEach(slide => slide.classList.remove('active'));
+            
+            // Update dots
+            const dots = container.querySelectorAll('.slide-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === slideIndex);
+            });
+            
+            // Add active class to current slide
+            slideElements[slideIndex].classList.add('active');
+            
             currentSlide = slideIndex;
             const offset = -currentSlide * 100; // 100% per slide
             slides.style.transform = `translateX(${offset}%)`;
@@ -1131,18 +1238,31 @@ function setupSlideshows() {
         }
 
         // Setup click handlers
-        if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-        if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+        if (prevBtn) prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetAutoplay();
+        });
+        
+        if (nextBtn) nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetAutoplay();
+        });
 
         // Setup autoplay
         let autoplayInterval;
         
         function startAutoplay() {
-            autoplayInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+            autoplayInterval = setInterval(nextSlide, autoplayDuration);
         }
 
         function stopAutoplay() {
             clearInterval(autoplayInterval);
+        }
+        
+        // Reset autoplay with consistent interval
+        function resetAutoplay() {
+            stopAutoplay();
+            startAutoplay();
         }
 
         // Start autoplay initially
@@ -1156,10 +1276,10 @@ function setupSlideshows() {
         container.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') {
                 prevSlide();
-                stopAutoplay();
+                resetAutoplay();
             } else if (e.key === 'ArrowRight') {
                 nextSlide();
-                stopAutoplay();
+                resetAutoplay();
             }
         });
 
@@ -1191,10 +1311,381 @@ function setupSlideshows() {
             }
         }
 
-        // Add keyboard focus to navigation buttons
-        if (prevBtn) prevBtn.setAttribute('tabindex', '0');
-        if (nextBtn) nextBtn.setAttribute('tabindex', '0');
+        // Improve accessibility
+        if (prevBtn) {
+            prevBtn.setAttribute('tabindex', '0');
+            prevBtn.setAttribute('aria-label', 'Previous slide');
+        }
+        if (nextBtn) {
+            nextBtn.setAttribute('tabindex', '0');
+            nextBtn.setAttribute('aria-label', 'Next slide');
+        }
+        
+        // Make slides keyboard navigable
+        slideElements.forEach((slide, index) => {
+            slide.setAttribute('tabindex', '0');
+            slide.setAttribute('aria-label', `Slide ${index + 1} of ${totalSlides}`);
+            
+            slide.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    // Toggle slide info visibility on Enter/Space
+                    const content = slide.querySelector('.slide-content');
+                    if (content) {
+                        content.style.opacity = content.style.opacity === '1' ? '0' : '1';
+                        content.style.transform = content.style.opacity === '1' ? 'translateY(0)' : 'translateY(20px)';
+                    }
+                }
+            });
+        });
     });
+}
+
+// ==============================================
+// Memory Page Video Banner Controls
+// ==============================================
+function setupMemoryVideoControls() {
+    const videoBanner = document.querySelector('.video-banner');
+    if (!videoBanner) return;
+    
+    const video = document.getElementById('memory-banner-video');
+    const overlay = document.querySelector('.video-overlay');
+    
+    // Create video controls
+    const videoControls = document.createElement('div');
+    videoControls.className = 'video-controls';
+    
+    // Play/pause button
+    const playPauseBtn = document.createElement('button');
+    playPauseBtn.className = 'video-control-btn';
+    playPauseBtn.innerHTML = '<span class="material-symbols-outlined">pause</span>';
+    playPauseBtn.setAttribute('aria-label', 'Pause video');
+    
+    // Mute/unmute button - Set initial state to reflect video's muted attribute
+    const muteBtn = document.createElement('button');
+    muteBtn.className = 'video-control-btn';
+    
+    // Function to update mute button state
+    function updateMuteButtonState() {
+        if (video.muted) {
+            muteBtn.innerHTML = '<span class="material-symbols-outlined">volume_off</span>';
+            muteBtn.setAttribute('aria-label', 'Unmute video');
+        } else {
+            muteBtn.innerHTML = '<span class="material-symbols-outlined">volume_up</span>';
+            muteBtn.setAttribute('aria-label', 'Mute video');
+        }
+    }
+    
+    // Set initial state
+    updateMuteButtonState();
+    
+    // Add buttons to controls
+    videoControls.appendChild(playPauseBtn);
+    videoControls.appendChild(muteBtn);
+    
+    // Add controls to banner
+    videoBanner.appendChild(videoControls);
+    
+    // Create scroll indicator
+    const scrollIndicator = document.createElement('div');
+    scrollIndicator.className = 'scroll-indicator';
+    
+    const scrollIcon = document.createElement('div');
+    scrollIcon.className = 'scroll-icon';
+    
+    const scrollText = document.createElement('div');
+    scrollText.className = 'scroll-text';
+    scrollText.textContent = 'Scroll to explore';
+    
+    scrollIndicator.appendChild(scrollIcon);
+    scrollIndicator.appendChild(scrollText);
+    
+    videoBanner.appendChild(scrollIndicator);
+    
+    // Function to update play/pause button state based on video state
+    function updatePlayPauseButtonState() {
+        if (video.paused) {
+            playPauseBtn.innerHTML = '<span class="material-symbols-outlined">play_arrow</span>';
+            playPauseBtn.setAttribute('aria-label', 'Play video');
+        } else {
+            playPauseBtn.innerHTML = '<span class="material-symbols-outlined">pause</span>';
+            playPauseBtn.setAttribute('aria-label', 'Pause video');
+        }
+    }
+    
+    // Set up event listeners
+    playPauseBtn.addEventListener('click', () => {
+        if (video.paused) {
+            video.play();
+            updatePlayPauseButtonState();
+        } else {
+            video.pause();
+            updatePlayPauseButtonState();
+        }
+    });
+    
+    // Listen for play and pause events directly from the video element
+    video.addEventListener('play', updatePlayPauseButtonState);
+    video.addEventListener('pause', updatePlayPauseButtonState);
+    
+    muteBtn.addEventListener('click', () => {
+        video.muted = !video.muted;
+        updateMuteButtonState();
+    });
+    
+    // Listen for volumechange event to update mute button
+    video.addEventListener('volumechange', updateMuteButtonState);
+    
+    // Hide controls and scroll indicator when scrolling down
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > videoBanner.offsetHeight / 2) {
+            videoControls.style.opacity = '0';
+            scrollIndicator.style.opacity = '0';
+        } else {
+            videoControls.style.opacity = '';
+            scrollIndicator.style.opacity = '';
+        }
+    });
+    
+    // Handle video playback based on visibility
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting && !video.paused) {
+                video.pause();
+                // Button state will be updated by the pause event listener
+            } else if (entry.isIntersecting && video.paused && entry.intersectionRatio > 0.5) {
+                video.play().then(() => {
+                    // Successfully started playing
+                    updatePlayPauseButtonState();
+                }).catch(() => {
+                    // Autoplay prevented
+                    updatePlayPauseButtonState();
+                });
+            }
+        });
+    }, { threshold: [0.25, 0.5, 0.75] });
+    
+    observer.observe(videoBanner);
+}
+
+// ==============================================
+// Memory Page Sub-Navigation
+// ==============================================
+function setupMemorySubNav() {
+    const subNavLinks = document.querySelectorAll('.memory-nav .sub-nav-link');
+    const memoryCategories = document.querySelectorAll('.memory-category');
+    
+    if (!subNavLinks.length || !memoryCategories.length) return;
+    
+    // Add IDs to categories for navigation
+    memoryCategories.forEach((category, index) => {
+        const titleText = category.querySelector('.category-title').textContent.toLowerCase();
+        category.id = titleText;
+    });
+    
+    // Handle navigation clicks
+    subNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Remove active class from all links
+            subNavLinks.forEach(l => l.classList.remove('active'));
+            
+            // Add active class to clicked link
+            link.classList.add('active');
+            
+            // Get target section from href
+            const targetId = link.getAttribute('href').slice(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                // Scroll to the target with smooth behavior
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Highlight the target section briefly
+                targetElement.classList.add('highlight');
+                setTimeout(() => {
+                    targetElement.classList.remove('highlight');
+                }, 1500);
+            }
+        });
+    });
+    
+    // Handle scroll spy for sub-nav
+    function updateActiveLink() {
+        let foundActive = false;
+        
+        // Check each section in reverse to find the one that's most in view
+        [...memoryCategories].reverse().forEach(section => {
+            if (foundActive) return;
+            
+            const rect = section.getBoundingClientRect();
+            const isVisible = (
+                rect.top <= 200 && // Consider section "active" when it's near the top
+                rect.bottom >= 200
+            );
+            
+            if (isVisible) {
+                foundActive = true;
+                const id = section.id;
+                
+                // Update active nav link
+                subNavLinks.forEach(link => {
+                    const linkTarget = link.getAttribute('href').slice(1);
+                    if (linkTarget === id) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+        });
+    }
+    
+    // Update active link on scroll
+    window.addEventListener('scroll', updateActiveLink);
+}
+
+// ==============================================
+// Memory Comment Form
+// ==============================================
+function setupMemoryCommentForm() {
+    const commentForm = document.getElementById('memory-comment-form');
+    if (!commentForm) return;
+    
+    const stars = document.querySelectorAll('.rating-input .star');
+    const ratingInput = document.getElementById('rating');
+    
+    // Handle star rating
+    stars.forEach(star => {
+        // Hover effect
+        star.addEventListener('mouseenter', () => {
+            const value = parseInt(star.getAttribute('data-value'));
+            
+            // Update the appearance of stars on hover
+            stars.forEach(s => {
+                const starValue = parseInt(s.getAttribute('data-value'));
+                if (starValue <= value) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+        });
+        
+        // Click to select rating
+        star.addEventListener('click', () => {
+            const value = parseInt(star.getAttribute('data-value'));
+            ratingInput.value = value;
+            
+            // Update the appearance of stars permanently
+            stars.forEach(s => {
+                const starValue = parseInt(s.getAttribute('data-value'));
+                if (starValue <= value) {
+                    s.classList.add('selected');
+                } else {
+                    s.classList.remove('selected');
+                }
+            });
+        });
+    });
+    
+    // Reset star appearance when mouse leaves the rating container
+    const ratingContainer = document.querySelector('.rating-input');
+    ratingContainer.addEventListener('mouseleave', () => {
+        const value = parseInt(ratingInput.value);
+        
+        stars.forEach(s => {
+            const starValue = parseInt(s.getAttribute('data-value'));
+            s.classList.remove('active');
+            
+            // Keep selected stars highlighted
+            if (starValue <= value) {
+                s.classList.add('selected');
+            } else {
+                s.classList.remove('selected');
+            }
+        });
+    });
+    
+    // Form submission
+    commentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(commentForm);
+        const commentData = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            comment: formData.get('comment'),
+            rating: formData.get('rating')
+        };
+        
+        // Validate form data
+        if (commentData.rating === "0") {
+            alert("Please rate your experience");
+            return;
+        }
+        
+        // In a real application, you would send this data to a server
+        // For demonstration, we'll add the comment to the display
+        addNewComment(commentData);
+        
+        // Reset form
+        commentForm.reset();
+        stars.forEach(s => s.classList.remove('selected', 'active'));
+        ratingInput.value = "0";
+        
+        // Show success message
+        const successMessage = document.createElement('div');
+        successMessage.className = 'success-message';
+        successMessage.textContent = 'Thank you for sharing your memory!';
+        commentForm.appendChild(successMessage);
+        
+        // Remove success message after 3 seconds
+        setTimeout(() => {
+            successMessage.remove();
+        }, 3000);
+    });
+}
+
+// Helper function to add a new comment to the display
+function addNewComment(commentData) {
+    const commentsDisplay = document.querySelector('.comment-cards');
+    if (!commentsDisplay) return;
+    
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+    
+    // Create new comment card
+    const newComment = document.createElement('div');
+    newComment.className = 'comment-card';
+    newComment.innerHTML = `
+        <div class="comment-header">
+            <h4>${commentData.name}</h4>
+            <div class="star-rating">
+                ${generateStarRating(parseInt(commentData.rating))}
+            </div>
+        </div>
+        <p class="comment-date">${formattedDate}</p>
+        <p class="comment-text">${commentData.comment}</p>
+    `;
+    
+    // Add animation class
+    newComment.classList.add('new-comment');
+    
+    // Add to beginning of comments
+    commentsDisplay.insertBefore(newComment, commentsDisplay.firstChild);
+    
+    // Remove animation class after animation completes
+    setTimeout(() => {
+        newComment.classList.remove('new-comment');
+    }, 1000);
 }
 
 // ==============================================
@@ -1261,9 +1752,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Initialize memory gallery if on memory page
-    if (document.querySelector('.memorygalary')) {
+    // Setup Memory Page if on memory page
+    if (document.querySelector('.memory-gallery')) {
         setupMemoryGallery();
+        setupMemoryVideoControls();
+        setupMemorySubNav();
+        setupMemoryCommentForm();
     }
 
     // Initialize checkout if on checkout page
@@ -1428,16 +1922,28 @@ function fetchProducts() {
     // Clear existing content
     menuContainer.innerHTML = '';
 
+    // Create a container for the carousel and its navigation
+    const carouselContainer = document.createElement('div');
+    carouselContainer.className = 'menu-carousel-container';
+    menuContainer.appendChild(carouselContainer);
+
+    // Create the products container
+    const productsContainer = document.createElement('div');
+    productsContainer.className = 'menu-products-container';
+    carouselContainer.appendChild(productsContainer);
+
     // Add navigation buttons
     const prevBtn = document.createElement('button');
     prevBtn.className = 'menu-nav-btn prev';
     prevBtn.innerHTML = '<span class="material-symbols-outlined">chevron_left</span>';
-    menuContainer.appendChild(prevBtn);
+    prevBtn.setAttribute('aria-label', 'Previous product');
+    carouselContainer.appendChild(prevBtn);
 
     const nextBtn = document.createElement('button');
     nextBtn.className = 'menu-nav-btn next';
     nextBtn.innerHTML = '<span class="material-symbols-outlined">chevron_right</span>';
-    menuContainer.appendChild(nextBtn);
+    nextBtn.setAttribute('aria-label', 'Next product');
+    carouselContainer.appendChild(nextBtn);
 
     // Add products
     Object.entries(products).forEach(([name, details]) => {
@@ -1515,13 +2021,13 @@ function fetchProducts() {
             addToCart(name, details.price, milk, sweetness, temperature);
         });
 
-        menuContainer.appendChild(card);
+        productsContainer.appendChild(card);
     });
 
     // Setup navigation buttons
     prevBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        menuContainer.scrollBy({
+        productsContainer.scrollBy({
             left: -400,
             behavior: 'smooth'
         });
@@ -1529,7 +2035,7 @@ function fetchProducts() {
 
     nextBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        menuContainer.scrollBy({
+        productsContainer.scrollBy({
             left: 400,
             behavior: 'smooth'
         });
