@@ -583,7 +583,7 @@ function showProductModal(product, price, images) {
         milk: {
             label: 'Milk Type',
             options: product === 'Special 701' ? ['Stay Active'] :
-                ['None', 'Whole Milk', 'Oat Milk (+$1)', 'Almond Milk (+$1)', 'Soy Milk (+$1)']
+                ['None', 'Whole Milk', 'Oat Milk', 'Almond Milk', 'Soy Milk']
         },
         sweetness: {
             label: 'Sweetness',
@@ -976,7 +976,8 @@ function showProductModal(product, price, images) {
 }
 
 function addToCart(product, basePrice, milkType, sweetness, temperature) {
-    const extraCharge = milkType.includes('milk') && !milkType.includes('whole') ? 1.00 : 0;
+    // Remove the extra charge for milk options
+    const extraCharge = 0;
     const totalPrice = basePrice + extraCharge;
     
     if (cart[product]) {
@@ -1972,9 +1973,9 @@ function fetchProducts() {
                                 '<option value="stay_active">Stay Active</option>' :
                                 `<option value="none">No Milk</option>
                                 <option value="whole_milk" ${name === 'Latte 701' ? 'selected' : ''}>Whole Milk</option>
-                                <option value="oat_milk">Oat Milk (+$1)</option>
-                                <option value="almond_milk">Almond Milk (+$1)</option>
-                                <option value="soy_milk">Soy Milk (+$1)</option>`
+                                <option value="oat_milk">Oat Milk</option>
+                                <option value="almond_milk">Almond Milk</option>
+                                <option value="soy_milk">Soy Milk</option>`
                             }
                         </select>
                     </div>
