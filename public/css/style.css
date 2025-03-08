@@ -498,7 +498,6 @@ main {
     margin: 0 auto;
     gap: 0.5rem;
 }
-
 .product-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
@@ -3724,11 +3723,6 @@ footer,
         gap: 1rem;
     }
 
-    .value-item {
-        flex-direction: row;
-        justify-content: center;
-    }
-
     .reveal-section h2 {
         font-size: 2rem;
     }
@@ -5193,7 +5187,6 @@ input.invalid {
     align-items: center;
     gap: 0.5rem;
 }
-
 .action-buttons {
     display: flex;
     gap: 1rem;
@@ -6928,9 +6921,6 @@ input.invalid {
 
 .memory-nav {
     display: flex;
-    justify-content: center;
-    padding: 1rem 0;
-    gap: 2rem;
 }
 
 .sub-nav-link {
@@ -6942,6 +6932,39 @@ input.invalid {
     border-radius: 30px;
     transition: all 0.3s ease;
     position: relative;
+}
+
+/* New navigation link styles */
+.nav-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    opacity: 0.8;
+}
+
+.nav-text-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.nav-text-link:hover {
+    opacity: 0.8;
+}
+
+.dark-theme .nav-link,
+.dark-theme .nav-text-link {
+    color: #f5f5f5;
+}
+
+.dark-theme .nav-link:hover,
+.dark-theme .nav-text-link:hover {
+    opacity: 0.8;
 }
 
 .sub-nav-link::after {
@@ -7408,4 +7431,6 @@ input.invalid {
 .dark-theme .reviews-list {
     color: #ccc;
 }
+
+
 
