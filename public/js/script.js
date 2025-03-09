@@ -560,7 +560,7 @@ function showProductModal(product, price, images) {
     // Set modal content
     modalName.textContent = product;
     modalPrice.textContent = price.toFixed(2);
-    modalDescription.textContent = productDescriptions[product];
+    modalDescription.textContent = products[product].description;
     modalMainImage.src = images[0];
     
     // Clear and populate thumbnails
@@ -578,12 +578,55 @@ function showProductModal(product, price, images) {
         thumbnailContainer.appendChild(thumbnail);
     });
     
+    // Remove any existing nutrition information to prevent duplicates
+    const existingNutritionContainer = modal.querySelector('.nutrition-info-container');
+    if (existingNutritionContainer) {
+        existingNutritionContainer.remove();
+    }
+    
+    // Add nutrition information
+    const productDetails = products[product];
+    if (productDetails && productDetails.nutrition) {
+        const nutritionInfo = document.createElement('div');
+        nutritionInfo.className = 'nutrition-info-container';
+        nutritionInfo.innerHTML = `
+            <h3>Nutrition Information</h3>
+            <div class="nutrition-details">
+                <div class="nutrition-item">
+                    <span class="nutrition-value">${productDetails.nutrition.calories}</span>
+                    <span class="nutrition-label">Calories</span>
+                </div>
+                <div class="nutrition-item">
+                    <span class="nutrition-value">${productDetails.nutrition.caffeine}</span>
+                    <span class="nutrition-label">Caffeine</span>
+                </div>
+                <div class="nutrition-item">
+                    <span class="nutrition-value">${productDetails.nutrition.fat}</span>
+                    <span class="nutrition-label">Fat</span>
+                </div>
+                <div class="nutrition-item">
+                    <span class="nutrition-value">${productDetails.nutrition.sugar}</span>
+                    <span class="nutrition-label">Sugar</span>
+                </div>
+            </div>
+            <div class="nutrition-highlights modal-highlights">
+                ${productDetails.nutrition.highlights ? 
+                    productDetails.nutrition.highlights.map(highlight => 
+                        `<span class="nutrition-tag">${highlight}</span>`
+                    ).join('') : ''}
+            </div>
+        `;
+        
+        // Insert nutrition info after product description
+        modalDescription.parentNode.insertBefore(nutritionInfo, modalDescription.nextSibling);
+    }
+    
     // Setup customization options
     const options = {
         milk: {
             label: 'Milk Type',
             options: product === 'Special 701' ? ['Stay Active'] :
-                ['None', 'Whole Milk', 'Oat Milk', 'Almond Milk', 'Soy Milk']
+                ['None', 'Whole Milk', 'Oat Milk', 'Almond Milk', 'Soy Milk', 'Lactose-Free Milk', 'Coconut Milk', 'Macadamia Milk', 'Rice Milk']
         },
         sweetness: {
             label: 'Sweetness',
@@ -1965,6 +2008,14 @@ function fetchProducts() {
                     ${generateStarRating(averageRating)}
                     <span class="rating-count">(${reviews.length} reviews)</span>
                 </div>
+                <!-- Nutrition highlights tags -->
+                <div class="nutrition-highlights">
+                    ${details.nutrition && details.nutrition.highlights ? 
+                        details.nutrition.highlights.map(highlight => 
+                            `<span class="nutrition-tag">${highlight}</span>`
+                        ).join('') : ''}
+                    <span class="nutrition-tag calories">${details.nutrition ? details.nutrition.calories : 0} cal</span>
+                </div>
                 <div class="product-customization">
                     <div class="option-group">
                         <label>Milk Type:</label>
@@ -1975,7 +2026,11 @@ function fetchProducts() {
                                 <option value="whole_milk" ${name === 'Latte 701' ? 'selected' : ''}>Whole Milk</option>
                                 <option value="oat_milk">Oat Milk</option>
                                 <option value="almond_milk">Almond Milk</option>
-                                <option value="soy_milk">Soy Milk</option>`
+                                <option value="soy_milk">Soy Milk</option>
+                                <option value="lactose_free">Lactose-Free Milk</option>
+                                <option value="coconut_milk">Coconut Milk</option>
+                                <option value="macadamia_milk">Macadamia Milk</option>
+                                <option value="rice_milk">Rice Milk</option>`
                             }
                         </select>
                     </div>

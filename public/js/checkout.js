@@ -22,13 +22,36 @@ function initializeCheckout() {
             const method = option.dataset.method;
             const deliveryFields = document.getElementById('delivery-fields');
             const pickupFields = document.getElementById('pickup-fields');
+            const cashPaymentOption = document.querySelector('.payment-method[data-method="cash"]');
             
             if (method === 'delivery') {
                 deliveryFields.style.display = 'block';
                 pickupFields.style.display = 'none';
+                // Hide cash payment option for delivery
+                if (cashPaymentOption) {
+                    cashPaymentOption.style.display = 'none';
+                }
+                // Update tracking step text for delivery
+                if (document.getElementById('delivery-step-text')) {
+                    document.getElementById('delivery-step-text').textContent = 'On The Way';
+                }
+                if (document.getElementById('delivery-pickup-label')) {
+                    document.getElementById('delivery-pickup-label').textContent = 'Delivery';
+                }
             } else {
                 deliveryFields.style.display = 'none';
                 pickupFields.style.display = 'block';
+                // Show cash payment option for pickup
+                if (cashPaymentOption) {
+                    cashPaymentOption.style.display = 'block';
+                }
+                // Update tracking step text for pickup
+                if (document.getElementById('delivery-step-text')) {
+                    document.getElementById('delivery-step-text').textContent = 'Ready for Pickup';
+                }
+                if (document.getElementById('delivery-pickup-label')) {
+                    document.getElementById('delivery-pickup-label').textContent = 'Pickup';
+                }
             }
         });
     });
@@ -112,6 +135,9 @@ function initializeCheckout() {
             validateInput(input);
         });
     });
+
+    // Initialize order tracking functionality
+    initializeOrderTracking();
 }
 
 function updateCheckoutStep(step) {
@@ -299,89 +325,93 @@ function createConfetti() {
 }
 
 function submitOrder() {
-    const deliveryMethod = document.querySelector('.delivery-option.selected');
-    const paymentMethod = document.querySelector('.payment-method.selected');
-    const savedCart = JSON.parse(localStorage.getItem('checkoutCart')) || {};
-    
-    const orderData = {
-        customerInfo: {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            ...(deliveryMethod.dataset.method === 'delivery' ? {
-                address: document.getElementById('address').value,
-                city: document.getElementById('city').value,
-                zipcode: document.getElementById('zipcode').value
-            } : {
-                pickupTime: document.getElementById('pickup-time').value
-            })
-        },
-        deliveryMethod: deliveryMethod.dataset.method,
-        paymentMethod: paymentMethod.dataset.method,
-        cart: savedCart
-    };
+    // Simulate order processing
+    const loadingOverlay = document.createElement('div');
+    loadingOverlay.className = 'loading-overlay';
+    loadingOverlay.innerHTML = `
+        <div class="loading-spinner"></div>
+        <p>Processing your order...</p>
+    `;
+    document.body.appendChild(loadingOverlay);
 
-    // Show animated success modal with emojis and icons
-    const modal = document.getElementById('success-modal');
-    if (modal) {
-        // Generate order number
-        const orderNumber = `THE${Math.floor(Math.random() * 900000) + 100000}`;
+    // Generate a unique order number
+    const orderNumber = generateOrderNumber();
+    
+    // Generate an estimated time based on delivery method
+    const isDelivery = document.querySelector('.delivery-option.selected')?.dataset.method === 'delivery';
+    const estimatedMinutes = isDelivery ? 30 : 15;
+    
+    setTimeout(() => {
+        document.body.removeChild(loadingOverlay);
         
-        modal.innerHTML = `
-            <div class="modal-content success-animation">
-                <div class="success-icon">
-                    <span class="material-symbols-outlined checkmark">check_circle</span>
-                </div>
-                <div class="success-message">
-                    <h2>🎉 Thank You for Your Order! 🎉</h2>
-                    <div class="order-details">
-                        <p class="order-number">Order #${orderNumber}</p>
-                        <p class="confirmation-sent">✉️ Confirmation sent to ${orderData.customerInfo.email}</p>
-                    </div>
-                    <div class="delivery-info">
-                        ${deliveryMethod.dataset.method === 'delivery' ? 
-                            `<p>🚚 Your order will be delivered to:</p>
-                             <p class="address">${orderData.customerInfo.address}, ${orderData.customerInfo.city}</p>` :
-                            `<p>⏰ Pickup time: ${orderData.customerInfo.pickupTime}</p>
-                             <p>📍 Visit us at THE.LAB.701</p>`
-                        }
-                    </div>
-                    <div class="next-steps">
-                        <p>What's next?</p>
-                        <ul>
-                            <li>✅ Check your email for order details</li>
-                            <li>📱 Track your order in real-time</li>
-                            <li>☕ Get ready for amazing coffee!</li>
-                        </ul>
-                    </div>
-                    <div class="action-buttons">
-                        <button onclick="window.location.href='index.html'" class="cart-checkout-btn">
-                            <span class="material-symbols-outlined">home</span>
-                            Return to Home
-                        </button>
-                        <button onclick="window.location.href='menu.html'" class="cart-checkout-btn">
-                            <span class="material-symbols-outlined">coffee</span>
-                            Order More
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
+        // Clear the cart
+        cart = {};
+        saveCart();
+        updateCartCount();
         
-        modal.style.display = 'flex';
-        
-        // Create celebration effect
+        // Show success modal
+        const successModal = document.getElementById('success-modal');
+        successModal.style.display = 'block';
+
+        // Update order number in the modal
+        if (document.getElementById('modal-order-number')) {
+            document.getElementById('modal-order-number').textContent = orderNumber;
+        }
+
+        // Add event listener to "Track Order" button
+        const trackOrderBtn = document.getElementById('track-order-btn');
+        if (trackOrderBtn) {
+            trackOrderBtn.addEventListener('click', () => {
+                // Hide success modal
+                successModal.style.display = 'none';
+                
+                // Show order tracking interface
+                const orderTrackingContainer = document.querySelector('.order-tracking-container');
+                if (orderTrackingContainer) {
+                    orderTrackingContainer.style.display = 'block';
+                }
+                
+                // Initialize and update tracking info
+                initializeTracking(orderNumber, estimatedMinutes, isDelivery);
+            });
+        }
+
+        // Add event listener to copy order number button
+        const copyOrderNumberBtn = document.getElementById('copy-order-number');
+        if (copyOrderNumberBtn) {
+            copyOrderNumberBtn.addEventListener('click', () => {
+                const orderNumber = document.getElementById('modal-order-number').textContent;
+                navigator.clipboard.writeText(orderNumber).then(() => {
+                    // Create a temporary tooltip
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'copy-tooltip';
+                    tooltip.textContent = 'Order number copied!';
+                    copyOrderNumberBtn.appendChild(tooltip);
+                    
+                    // Remove the tooltip after 2 seconds
+                    setTimeout(() => {
+                        tooltip.remove();
+                    }, 2000);
+                });
+            });
+        }
+
+        // Create confetti effect
         createConfetti();
         
-        // Clear cart data
-        localStorage.removeItem('checkoutCart');
-        localStorage.removeItem('shoppingCart');
-        
-        // Update cart UI if available
-        if (typeof updateCartCount === 'function') {
-            updateCartCount();
-        }
-    }
+        // Store the order details in localStorage
+        saveOrderDetails({
+            orderNumber: orderNumber,
+            timestamp: new Date().toISOString(),
+            deliveryMethod: document.querySelector('.delivery-option.selected')?.dataset.method || 'pickup',
+            paymentMethod: document.querySelector('.payment-method.selected')?.dataset.method || 'credit',
+            customerName: document.getElementById('name')?.value,
+            customerEmail: document.getElementById('email')?.value,
+            customerPhone: document.getElementById('phone')?.value,
+            estimatedMinutes: estimatedMinutes,
+            status: 'received'
+        });
+    }, 2000);
 }
 
 function validateInput(input) {
@@ -551,4 +581,151 @@ function loadCheckoutSummary() {
     console.log('Final totals:', { totalCups, total });
     checkoutTotalCups.textContent = totalCups;
     checkoutTotalPrice.textContent = total.toFixed(2);
+}
+
+// Order Tracking Functions
+function initializeOrderTracking() {
+    // Initialize the refresh button
+    const refreshBtn = document.getElementById('refresh-tracking');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+            updateTrackingStatus();
+        });
+    }
+    
+    // Initialize the contact support button
+    const contactBtn = document.getElementById('contact-support');
+    if (contactBtn) {
+        contactBtn.addEventListener('click', () => {
+            // Create a modal or form for contacting support
+            alert('Our support team will contact you shortly. Thank you for your patience!');
+        });
+    }
+}
+
+function generateOrderNumber() {
+    // Generate a unique order number with format: 701-XXXX-XXXX
+    const timestamp = new Date().getTime().toString().slice(-8);
+    const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+    return `701-${timestamp.slice(0, 4)}-${random}`;
+}
+
+function initializeTracking(orderNumber, estimatedMinutes, isDelivery) {
+    // Set order number
+    if (document.getElementById('tracking-number')) {
+        document.getElementById('tracking-number').textContent = orderNumber;
+    }
+    
+    // Calculate and set estimated time
+    const now = new Date();
+    const estimatedTime = new Date(now.getTime() + estimatedMinutes * 60000);
+    const timeString = estimatedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    if (document.getElementById('estimated-time')) {
+        document.getElementById('estimated-time').textContent = `${timeString} (${estimatedMinutes} min)`;
+    }
+    
+    // Set order received time
+    if (document.getElementById('order-received-time')) {
+        document.getElementById('order-received-time').textContent = now.toLocaleTimeString([], { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+    }
+    
+    // Update delivery/pickup step text
+    if (document.getElementById('delivery-step-text')) {
+        document.getElementById('delivery-step-text').textContent = isDelivery ? 'On The Way' : 'Ready for Pickup';
+    }
+    
+    // Simulate order progress
+    simulateOrderProgress(estimatedMinutes);
+}
+
+function simulateOrderProgress(totalEstimatedMinutes) {
+    // This is a simulation for demonstration purposes
+    // In a real application, this would be replaced by real-time updates from a server
+    
+    // Calculate time intervals based on total estimated time
+    const preparingTime = Math.floor(totalEstimatedMinutes * 0.3);
+    const deliveryTime = Math.floor(totalEstimatedMinutes * 0.6);
+    const completionTime = totalEstimatedMinutes;
+    
+    // Simulate preparing status
+    setTimeout(() => {
+        updateTrackingStep('preparing');
+    }, preparingTime * 1000); // Using seconds instead of minutes for demonstration
+    
+    // Simulate delivery/pickup status
+    setTimeout(() => {
+        updateTrackingStep('delivery');
+    }, deliveryTime * 1000);
+    
+    // Simulate completion status
+    setTimeout(() => {
+        updateTrackingStep('completed');
+    }, completionTime * 1000);
+}
+
+function updateTrackingStep(step) {
+    const trackingSteps = document.querySelectorAll('.tracking-step');
+    const now = new Date();
+    const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    if (step === 'preparing' && trackingSteps.length > 1) {
+        trackingSteps[0].classList.add('completed');
+        trackingSteps[1].classList.add('active');
+        if (document.getElementById('preparing-time')) {
+            document.getElementById('preparing-time').textContent = timeString;
+        }
+    } else if (step === 'delivery' && trackingSteps.length > 2) {
+        trackingSteps[1].classList.add('completed');
+        trackingSteps[2].classList.add('active');
+        if (document.getElementById('delivery-time')) {
+            document.getElementById('delivery-time').textContent = timeString;
+        }
+    } else if (step === 'completed' && trackingSteps.length > 3) {
+        trackingSteps[2].classList.add('completed');
+        trackingSteps[3].classList.add('active');
+        if (document.getElementById('completed-time')) {
+            document.getElementById('completed-time').textContent = timeString;
+        }
+    }
+    
+    // Update status in localStorage
+    const orderDetails = getOrderDetails();
+    if (orderDetails) {
+        orderDetails.status = step;
+        saveOrderDetails(orderDetails);
+    }
+}
+
+function updateTrackingStatus() {
+    // In a real application, this would fetch the latest status from the server
+    // For demonstration, we'll just simulate progress
+    
+    const trackingSteps = document.querySelectorAll('.tracking-step');
+    let currentActive = -1;
+    
+    // Find the current active step
+    trackingSteps.forEach((step, index) => {
+        if (step.classList.contains('active') && !step.classList.contains('completed')) {
+            currentActive = index;
+        }
+    });
+    
+    // Move to the next step if not completed
+    if (currentActive >= 0 && currentActive < trackingSteps.length - 1) {
+        const nextStep = ['received', 'preparing', 'delivery', 'completed'][currentActive + 1];
+        updateTrackingStep(nextStep);
+    }
+}
+
+function saveOrderDetails(orderDetails) {
+    localStorage.setItem('currentOrder', JSON.stringify(orderDetails));
+}
+
+function getOrderDetails() {
+    const orderData = localStorage.getItem('currentOrder');
+    return orderData ? JSON.parse(orderData) : null;
 } 

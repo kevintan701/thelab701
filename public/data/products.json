@@ -8,7 +8,7 @@
             "rating": 4.8,
             "reviews": 171,
             "options": {
-                "milk": ["No Milk", "Whole Milk", "Oat Milk", "Almond Milk"],
+                "milk": ["No Milk", "Whole Milk", "Oat Milk", "Almond Milk", "Soy Milk", "Lactose-Free Milk", "Coconut Milk", "Macadamia Milk", "Rice Milk"],
                 "sweetness": ["No Sugar", "Less Sugar", "Normal Sugar"],
                 "temperature": ["Hot", "Iced"]
             }
@@ -21,7 +21,7 @@
             "rating": 4.9,
             "reviews": 289,
             "options": {
-                "milk": ["No Milk", "Whole Milk", "Oat Milk", "Almond Milk"],
+                "milk": ["No Milk", "Whole Milk", "Oat Milk", "Almond Milk", "Soy Milk", "Lactose-Free Milk", "Coconut Milk", "Macadamia Milk", "Rice Milk"],
                 "sweetness": ["No Sugar", "Less Sugar", "Normal Sugar"],
                 "temperature": ["Iced"]
             }
@@ -34,7 +34,7 @@
             "rating": 4.7,
             "reviews": 302,
             "options": {
-                "milk": ["Whole Milk", "Oat Milk", "Almond Milk"],
+                "milk": ["Whole Milk", "Oat Milk", "Almond Milk", "Soy Milk", "Lactose-Free Milk", "Coconut Milk", "Macadamia Milk", "Rice Milk"],
                 "sweetness": ["No Sugar", "Less Sugar", "Normal Sugar"],
                 "temperature": ["Hot", "Iced"]
             }

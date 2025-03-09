@@ -132,6 +132,11 @@
                                 <span class="material-symbols-outlined">phone_iphone</span>
                                 <p>Apple Pay</p>
                             </div>
+                            <!-- Cash payment option (only for pickup) -->
+                            <div class="payment-method pickup-only" data-method="cash" style="display: none;">
+                                <span class="material-symbols-outlined">payments</span>
+                                <p>Cash on Pickup</p>
+                            </div>
                         </div>
                         <div id="card-details" style="display: none;">
                             <div class="form-group">
@@ -182,14 +187,123 @@
             </div>
         </div>
 
+        <!-- Order Tracking Interface -->
+        <div class="order-tracking-container" style="display: none;">
+            <h2>Track Your Order</h2>
+            <div class="order-info">
+                <div class="order-number">
+                    <h3>Order Number</h3>
+                    <p id="tracking-number">-</p>
+                </div>
+                <div class="estimated-time">
+                    <h3>Estimated Time</h3>
+                    <p id="estimated-time">-</p>
+                </div>
+            </div>
+            
+            <div class="tracking-progress">
+                <div class="tracking-step active">
+                    <div class="step-icon">
+                        <span class="material-symbols-outlined">receipt</span>
+                    </div>
+                    <div class="step-info">
+                        <h4>Order Received</h4>
+                        <p id="order-received-time">-</p>
+                    </div>
+                </div>
+                <div class="tracking-step">
+                    <div class="step-icon">
+                        <span class="material-symbols-outlined">inventory</span>
+                    </div>
+                    <div class="step-info">
+                        <h4>Preparing</h4>
+                        <p id="preparing-time">-</p>
+                    </div>
+                </div>
+                <div class="tracking-step">
+                    <div class="step-icon">
+                        <span class="material-symbols-outlined">local_shipping</span>
+                    </div>
+                    <div class="step-info">
+                        <h4 id="delivery-step-text">On The Way</h4>
+                        <p id="delivery-time">-</p>
+                    </div>
+                </div>
+                <div class="tracking-step">
+                    <div class="step-icon">
+                        <span class="material-symbols-outlined">check_circle</span>
+                    </div>
+                    <div class="step-info">
+                        <h4>Completed</h4>
+                        <p id="completed-time">-</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tracking-note">
+                <p>You'll receive updates via email as your order progresses.</p>
+                <p>Bookmark this page or save your order number to check status anytime.</p>
+            </div>
+            
+            <div class="tracking-actions">
+                <button id="refresh-tracking" class="tracking-btn">
+                    <span class="material-symbols-outlined">refresh</span>
+                    Refresh Status
+                </button>
+                <button id="contact-support" class="tracking-btn">
+                    <span class="material-symbols-outlined">support_agent</span>
+                    Contact Support
+                </button>
+            </div>
+        </div>
+
         <!-- Success Modal -->
         <div id="success-modal" class="modal">
             <div class="modal-content">
                 <h2>Thank You for Your Order!</h2>
                 <p>Your order has been successfully placed.</p>
                 <p>Order confirmation has been sent to your email.</p>
+                
+                <!-- Order Tracking Information -->
+                <div class="order-tracking-info">
+                    <h3>Track Your Order</h3>
+                    <div class="tracking-number-container">
+                        <span>Order #: </span>
+                        <span id="modal-order-number">701-XXXX-XXXX</span>
+                        <button id="copy-order-number">
+                            <span class="material-symbols-outlined">content_copy</span>
+                        </button>
+                    </div>
+                    <div class="tracking-status">
+                        <div class="status-indicator">
+                            <div class="status-circle active">
+                                <span class="status-icon material-symbols-outlined">check</span>
+                            </div>
+                            <div class="status-line"></div>
+                            <div class="status-circle">
+                                <span class="status-icon material-symbols-outlined">inventory</span>
+                            </div>
+                            <div class="status-line"></div>
+                            <div class="status-circle">
+                                <span class="status-icon material-symbols-outlined">local_shipping</span>
+                            </div>
+                            <div class="status-line"></div>
+                            <div class="status-circle">
+                                <span class="status-icon material-symbols-outlined">check_circle</span>
+                            </div>
+                        </div>
+                        <div class="status-labels">
+                            <span>Received</span>
+                            <span>Preparing</span>
+                            <span id="delivery-pickup-label">Delivery</span>
+                            <span>Completed</span>
+                        </div>
+                    </div>
+                    <p class="tracking-instruction">Use your order number to track your order status on our website or check your email for updates.</p>
+                </div>
 
                 <div class="success-buttons">
+                    <button id="track-order-btn" class="primary-button track-button">Track Order</button>
                     <button onclick="window.location.href='index.html'" class="primary-button home-button">Return to Home</button>
                     <button onclick="window.location.href='menu.html'" class="primary-button order-button">Order More</button>
                 </div>
