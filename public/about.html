@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/html5reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <title>THE.LAB.701 - About Us</title>
+    <link rel="icon" type="image/svg" href="medias/Lab_Logo_white.svg">
+</head>
+
+<body>
+    <a class="skip-link" href="#maincontent">Skip to Main Content</a>
+
+    <header>
+        <nav class="navbar">
+            <ul class="menu-links">
+                <li><span id="close-menu-btn" class="material-symbols-outlined" tabindex="0">close</span></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="memory.html">Memory</a></li>
+                <li><a href="about.html" class="active">About Us</a></li>
+                <li><span id="cart-icon" class="material-symbols-outlined" tabindex="0">shopping_cart</span></li>
+                <li><span id="cart-count">0</span></li>
+            </ul>
+            <span id="hamburger-btn" class="material-symbols-outlined" tabindex="0">menu</span>
+
+            <div id="cart-dropdown" class="cart-dropdown">
+                <button id="cart-close" class="material-symbols-outlined" onclick="closeCart()">close</button>
+                <ul id="cart-items-list"></ul>
+            </div>
+        </nav>
+        <img src="medias/Logo_Word_Mark.png" alt="THE.LAB.701 Logo - Word Mark" id="logo-word-mark-about" tabindex="0">
+        <img src="medias/Lab_Logo.svg" alt="THE.LAB.701 Logo - Mark" id="logo-mark-about" tabindex="0">
+    </header>
+
+    <main id="maincontent">
+        <!-- Hero Section with Parallax -->
+        <section class="hero-section">
+            <div class="parallax-bg"></div>
+            <div class="hero-content">
+                <h1 class="reveal-text">Welcome to</h1>
+                <h1 class="reveal-text">THE.LAB.701</h1>
+                <p class="tagline reveal-text">Exploring • Creating • Sharing</p>
+                <div class="signature-message reveal-text">
+                    <div class="handwritten">
+                        <p>"Stay Active."</p>
+                        <p>"Be Well."</p>
+                        <p>"Be Loved."</p>
+                        <span class="signature">- Kevin</span>
+                    </div>
+                    <div class="cup-icon">
+                        <span class="material-symbols-outlined">coffee</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section class="story-section reveal-section">
+            <div class="section-container">
+                <h2>Our Story</h2>
+                
+                <!-- Story Content Section 1: Paragraph -->
+                <div class="story-primary">
+                    <p>Founded in August 2020 by Kevin Tan, THE.LAB.701 is more than just a coffee shop - it's a unique cozy space where "Exploring, Creating, and Sharing" experiences from around the world come together. Born from Kevin's apartment's storage room (701), this space has evolved into a vibrant hub for building positive energy and community connections.</p>
+                </div>
+                
+                <!-- Story Content Section 2: Quote with Image -->
+                <div class="story-secondary">
+                    <div class="quote-image-container">
+                        <div class="quote-section">
+                            <blockquote>
+                                "Every cup we serve is a moment of connection, a story shared, and a memory created."
+                                <footer>— THE.LAB.701</footer>
+                            </blockquote>
+                        </div>
+                        <div class="story-image">
+                            <img src="medias/founder-2.JPG" alt="Kevin Tan - Founder working at THE.LAB.701" class="rounded-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section class="timeline-section reveal-section">
+            <div class="section-container">
+                <h2>Our Journey</h2>
+                <div class="timeline">
+                    <div class="timeline-item" data-year="2020">
+                        <h3>The Beginning</h3>
+                        <p>THE.LAB.701 founded in apartment 701</p>
+                    </div>
+                    <div class="timeline-item" data-year="2021">
+                        <h3>Resilience</h3>
+                        <p>Maintained service through Covid-19</p>
+                    </div>
+                    <div class="timeline-item" data-year="2022">
+                        <h3>Recognition</h3>
+                        <p>3rd Place in Public Foodie Competition</p>
+                    </div>
+                    <div class="timeline-item" data-year="2023">
+                        <h3>Digital Presence</h3>
+                        <p>Official Website Launch</p>
+                    </div>
+                    <div class="timeline-item" data-year="2024">
+                        <h3>Brand Expansion</h3>
+                        <p>Own Clothing Brand Launch</p>
+                    </div>
+                    <div class="timeline-item" data-year="2025">
+                        <h3>Creative Growth</h3>
+                        <p>Sound Studio Launch</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section reveal-section">
+            <div class="section-container">
+                <h2>Our Impact</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <span class="material-symbols-outlined">coffee</span>
+                        </div>
+                        <span class="stat-number" data-start="48798" data-target="48888" data-realtime="true">48798</span>
+                        <span class="stat-label">Cups Served</span>
+                        <div class="stat-update-indicator">
+                            <span class="update-dot"></span>
+                            <span class="update-text">Live</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <span class="material-symbols-outlined">sentiment_very_satisfied</span>
+                        </div>
+                        <span class="stat-number" data-start="10731" data-target="10888" data-realtime="true">10731</span>
+                        <span class="stat-label">Happy Customers</span>
+                        <div class="stat-update-indicator">
+                            <span class="update-dot"></span>
+                            <span class="update-text">Live</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <span class="material-symbols-outlined">travel_explore</span>
+                        </div>
+                        <span class="stat-number" data-start="175" data-target="178">175</span>
+                        <span class="stat-label">Coffee Brands Explored Globally</span>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <span class="material-symbols-outlined">cake</span>
+                        </div>
+                        <span class="stat-number" data-start="4" data-target="4">4</span>
+                        <span class="stat-label">Years of Service</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section reveal-section">
+            <div class="section-container">
+                <h2>Meet Our Team</h2>
+                <div class="founder-profile">
+                    <div class="founder-image">
+                        <img src="medias/founder.jpg" alt="Kevin Tan - Founder of THE.LAB.701">
+                    </div>
+                    <div class="founder-info">
+                        <div class="founder-header">
+                            <h3>Kevin Tan</h3>
+                            <p class="founder-title">Founder & Creative Director</p>
+                        </div>
+                        <div class="founder-quote">
+                            <p>"Through THE.LAB.701, I aim to create a space where exploring, creating, and sharing become a collective journey. It's not just about coffee; it's about building a community of positive energy and endless possibilities."</p>
+                        </div>
+                        <div class="founder-values">
+                            <div class="value-item">
+                                <span class="material-symbols-outlined">explore</span>
+                                <span>Exploring</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="material-symbols-outlined">brush</span>
+                                <span>Creating</span>
+                            </div>
+                            <div class="value-item">
+                                <span class="material-symbols-outlined">favorite</span>
+                                <span>Sharing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Section -->
+        <section class="sub-navi-others">
+            <a href="menu.html" class="nav-link" aria-label="Navigate to Menu page">
+                <span id="left-arrow-menu" class="material-symbols-outlined" aria-hidden="true">double_arrow</span>
+            </a>
+            <div id="left-tag">
+                <a href="menu.html" class="nav-text-link" aria-label="701 Menu">
+                    <h2>701 Menu</h2>
+                </a>
+            </div>
+            <div id="right-tag">
+                <a href="memory.html" class="nav-text-link" aria-label="Memories 701">
+                    <h2>Memories 701</h2>
+                </a>
+            </div>
+            <a href="memory.html" class="nav-link" aria-label="Navigate to Memories page">
+                <span id="right-arrow-memories" class="material-symbols-outlined" aria-hidden="true">double_arrow</span>
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/the.lab.701/" target="_blank" rel="noopener noreferrer">
+                <span class="material-symbols-outlined">photo_camera</span>
+                <span>Instagram</span>
+            </a>
+            <a href="https://www.youtube.com/@701SoundStudio" target="_blank" rel="noopener noreferrer">
+                <span class="material-symbols-outlined">play_circle</span>
+                <span>YouTube</span>
+            </a>
+            <a href="https://www.linkedin.com/company/thelab701/about/?viewAsMember=true" target="_blank" rel="noopener noreferrer">
+                <span class="material-symbols-outlined">work</span>
+                <span>LinkedIn</span>
+            </a>
+        </div>
+        <p>&copy; 2025 THE.LAB.701</p>
+    </footer>
+
+    <!-- Mini Music Player -->
+    <div class="mini-player">
+        <div id="youtube-player"></div>
+        <div class="player-content">
+            <img id="track-thumbnail" src="medias/Cover-M1.png" alt="Track thumbnail">
+            <div class="track-info">
+                <span id="track-name">Enjoy Your Cozy Morning</span>
+            </div>
+            <div class="player-controls">
+                <span id="prev-track" class="material-symbols-outlined" tabindex="0">skip_previous</span>
+                <span id="play-pause" class="material-symbols-outlined" tabindex="0">play_circle</span>
+                <span id="next-track" class="material-symbols-outlined" tabindex="0">skip_next</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/about.js"></script>
+</body>
+
+</html>

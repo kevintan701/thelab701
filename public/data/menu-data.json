@@ -1,0 +1,52 @@
+{
+    "products": {
+        "Americano 701": {
+            "price": 4.00,
+            "images": ["medias/americano-1.jpeg", "medias/americano-2.jpeg", "medias/americano-3.jpeg", "medias/americano-4.jpeg"],
+            "description": "A bold and smooth coffee crafted with our signature espresso shots and hot water. Perfect for those who appreciate the pure essence of coffee.",
+            "nutrition": {
+                "calories": 15,
+                "caffeine": "150mg",
+                "fat": "0g",
+                "sugar": "0g",
+                "highlights": ["Low Calorie", "Sugar Free"]
+            }
+        },
+        "Cold Brew 701": {
+            "price": 5.00,
+            "images": ["medias/coldbrew-1.jpeg", "medias/coldbrew-2.jpeg"],
+            "description": "Steeped for 12 hours in cold water, our signature cold brew offers a naturally sweet, incredibly smooth taste.",
+            "nutrition": {
+                "calories": 20,
+                "caffeine": "180mg",
+                "fat": "0g",
+                "sugar": "0g",
+                "highlights": ["Low Calorie", "Less Acidic"]
+            }
+        },
+        "Latte 701": {
+            "price": 6.00,
+            "images": ["medias/latte-1.jpeg", "medias/latte-2.jpeg", "medias/latte-3.jpeg", "medias/latte-4.jpeg"],
+            "description": "Our signature espresso harmoniously blended with steamed milk and topped with a delicate layer of foam.",
+            "nutrition": {
+                "calories": 120,
+                "caffeine": "150mg",
+                "fat": "4g",
+                "sugar": "10g",
+                "highlights": ["Good Protein Source"]
+            }
+        },
+        "Special 701": {
+            "price": 7.00,
+            "images": ["medias/special-1.jpeg", "medias/special-2.jpeg", "medias/special-3.jpeg", "medias/special-4.jpeg", "medias/special-5.jpeg", "medias/special-6.jpeg", "medias/special-7.jpeg"],
+            "description": "Our barista's special creation, combining premium coffee with unique ingredients. A perfect fusion of flavors that will energize your day.",
+            "nutrition": {
+                "calories": 150,
+                "caffeine": "175mg",
+                "fat": "5g",
+                "sugar": "15g",
+                "highlights": ["Energy Boost", "Antioxidant Rich"]
+            }
+        }
+    }
+} 

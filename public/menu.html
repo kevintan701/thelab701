@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/html5reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet">
+
+    <title>THE.LAB.701 - Menu</title>
+    <link rel="icon" type="image/svg" href="medias/Lab_Logo_white.svg">
+</head>
+
+<body>
+    <a class="skip-link" href="#maincontent">Skip to Main Content</a>
+    <header>
+        <nav class="navbar">
+            <ul class="menu-links">
+                <li><span id="close-menu-btn" class="material-symbols-outlined" tabindex="0">close</span></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html" class="active">Menu</a></li>
+                <li><a href="memory.html">Memory</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><span id="cart-icon" class="material-symbols-outlined" tabindex="0">shopping_cart</span></li>
+                <li><span id="cart-count">0</span></li>
+            </ul>
+            <span id="hamburger-btn" class="material-symbols-outlined" tabindex="0">menu</span>
+
+            <div id="cart-dropdown" class="cart-dropdown">
+                <button id="cart-close" class="material-symbols-outlined" onclick="closeCart()">close</button>
+                <ul id="cart-items-list"></ul>
+            </div>
+    
+
+        </nav>
+        <img src="medias/Logo_Word_Mark.png" alt="THE.LAB.701 Logo - Word Mark" id="logo-word-mark-menu" tabindex="0">
+        <img src="medias/Lab_Logo.svg" alt="THE.LAB.701 Logo - Mark" id="logo-mark-menu" tabindex="0">
+
+    </header>
+    <main id="maincontent">
+        <section class="content" id="menu-title">
+            <h1>OUR MENU</h1>
+            <div class="menu" id="menu-coffee">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+
+            <section class="sub-navi-others">
+                <a href="memory.html" class="nav-link" aria-label="Navigate to Memories page">
+                    <span id="left-arrow-memories" class="material-symbols-outlined" aria-hidden="true">double_arrow</span>
+                </a>
+                <div id="left-tag">
+                    <a href="memory.html" class="nav-text-link" aria-label="701 Memories">
+                        <h2>701 Memories</h2>
+                    </a>
+                </div>
+                <div id="right-tag">
+                    <a href="about.html" class="nav-text-link" aria-label="About 701">
+                        <h2>About 701</h2>
+                    </a>
+                </div>
+                <a href="about.html" class="nav-link" aria-label="Navigate to About page">
+                    <span id="right-arrow-about" class="material-symbols-outlined" aria-hidden="true">double_arrow</span>
+                </a>
+            </section>
+        </section>
+
+        <button id="checkout-btn" class="material-symbols-outlined" onclick="window.location.href='checkout.html'">
+            payments
+        </button>
+
+        <!-- Product Modal -->
+        <div id="product-modal" class="modal">
+            <div class="modal-content">
+                <span id="close-modal" class="material-symbols-outlined">close</span>
+                <div class="modal-grid">
+                    <div class="modal-image-section">
+                        <img id="modal-main-image" src="" alt="Product Image">
+                        <div class="thumbnail-container"></div>
+                    </div>
+                    <div class="modal-details">
+                        <h2 id="modal-product-name"></h2>
+                        <div class="modal-price">$<span id="modal-product-price"></span></div>
+                        <p id="modal-product-description"></p>
+                        <div class="modal-customization-options"></div>
+                        <div class="modal-quantity">
+                            <label for="product-quantity">Quantity:</label>
+                            <div class="quantity-controls">
+                                <button id="decrease-qty" class="material-symbols-outlined">remove</button>
+                                <input type="number" id="product-quantity" value="1" min="1" max="10" readonly>
+                                <button id="increase-qty" class="material-symbols-outlined">add</button>
+                            </div>
+                        </div>
+                        <button id="modal-add-to-cart" class="modal-add-btn">
+                            <span class="material-symbols-outlined">shopping_cart</span>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <div class="reviews-container"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/the.lab.701/" target="_blank" rel="noopener noreferrer">
+                <span class="material-symbols-outlined">photo_camera</span>
+                <span>Instagram</span>
+            </a>
+            <a href="https://www.youtube.com/@701SoundStudio" target="_blank" rel="noopener noreferrer">
+                <span class="material-symbols-outlined">play_circle</span>
+                <span>YouTube</span>
+            </a>
+            <a href="https://www.linkedin.com/company/thelab701/about/?viewAsMember=true" target="_blank" rel="noopener noreferrer">
+                <span class="material-symbols-outlined">work</span>
+                <span>LinkedIn</span>
+            </a>
+        </div>
+        <p>&copy; 2025 THE.LAB.701</p>
+    </footer>
+
+    <!-- Mini Music Player -->
+    <div class="mini-player">
+        <div id="youtube-player"></div>
+        <div class="player-content">
+            <img id="track-thumbnail" src="medias/Cover-M1.png" alt="Track thumbnail">
+            <div class="track-info">
+                <span id="track-name">Enjoy Your Cozy Morning</span>
+            </div>
+            <div class="player-controls">
+                <span id="prev-track" class="material-symbols-outlined" tabindex="0">skip_previous</span>
+                <span id="play-pause" class="material-symbols-outlined" tabindex="0">play_circle</span>
+                <span id="next-track" class="material-symbols-outlined" tabindex="0">skip_next</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

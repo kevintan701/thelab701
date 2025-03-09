@@ -1,0 +1,56 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Americano 701",
+            "price": 4.00,
+            "image": "/thelab701/public/medias/americano-1.jpeg",
+            "rating": 4.8,
+            "reviews": 171,
+            "options": {
+                "milk": ["No Milk", "Whole Milk", "Oat Milk", "Almond Milk", "Soy Milk", "Lactose-Free Milk", "Coconut Milk", "Macadamia Milk", "Rice Milk"],
+                "sweetness": ["No Sugar", "Less Sugar", "Normal Sugar"],
+                "temperature": ["Hot", "Iced"]
+            }
+        },
+        {
+            "id": 2,
+            "name": "Cold Brew 701",
+            "price": 5.00,
+            "image": "/thelab701/public/medias/coldbrew-2.jpeg",
+            "rating": 4.9,
+            "reviews": 289,
+            "options": {
+                "milk": ["No Milk", "Whole Milk", "Oat Milk", "Almond Milk", "Soy Milk", "Lactose-Free Milk", "Coconut Milk", "Macadamia Milk", "Rice Milk"],
+                "sweetness": ["No Sugar", "Less Sugar", "Normal Sugar"],
+                "temperature": ["Iced"]
+            }
+        },
+        {
+            "id": 3,
+            "name": "Latte 701",
+            "price": 6.00,
+            "image": "/thelab701/public/medias/latte-3.jpeg",
+            "rating": 4.7,
+            "reviews": 302,
+            "options": {
+                "milk": ["Whole Milk", "Oat Milk", "Almond Milk", "Soy Milk", "Lactose-Free Milk", "Coconut Milk", "Macadamia Milk", "Rice Milk"],
+                "sweetness": ["No Sugar", "Less Sugar", "Normal Sugar"],
+                "temperature": ["Hot", "Iced"]
+            }
+        },
+        {
+            "id": 4,
+            "name": "Special 701",
+            "price": 7.00,
+            "image": "/thelab701/public/medias/special-4.jpeg",
+            "rating": 4.9,
+            "reviews": 568,
+            "options": {
+                "milk": ["Stay Active"],
+                "sweetness": ["Be Well"],
+                "temperature": ["Be Loved"]
+            }
+        }
+    ]
+} 

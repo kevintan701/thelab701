@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/html5reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <title>THE.LAB.701 - Checkout</title>
+    <link rel="icon" type="image/svg" href="medias/Lab_Logo_white.svg">
+</head>
+
+<body>
+    <a class="skip-link" href="#maincontent">Skip to Main Content</a>
+    <header>
+        <nav class="navbar">
+            <ul class="menu-links">
+                <li><span id="close-menu-btn" class="material-symbols-outlined" tabindex="0">close</span></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="memory.html">Memory</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><span id="cart-icon" class="material-symbols-outlined" tabindex="0">shopping_cart</span></li>
+                <li><span id="cart-count">0</span></li>
+            </ul>
+            <span id="hamburger-btn" class="material-symbols-outlined" tabindex="0">menu</span>
+        </nav>
+        <img src="medias/Logo_Word_Mark.png" alt="THE.LAB.701 Logo - Word Mark" id="logo-word-mark-menu" tabindex="0">
+        <img src="medias/Lab_Logo.svg" alt="THE.LAB.701 Logo - Mark" id="logo-mark-menu" tabindex="0">
+        <div id="cart-dropdown" class="cart-dropdown">
+            <button id="cart-close" class="material-symbols-outlined" onclick="closeCart()">close</button>
+            <ul id="cart-items-list"></ul>
+        </div>
+    </header>
+
+    <main id="maincontent">
+        <div class="checkout-container">
+            <div class="checkout-progress">
+                <div class="progress-step active" data-step="1">
+                    <span class="step-number">1</span>
+                    <span class="step-text">Delivery Method</span>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <span class="step-number">2</span>
+                    <span class="step-text">Information</span>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <span class="step-number">3</span>
+                    <span class="step-text">Payment</span>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <span class="step-number">4</span>
+                    <span class="step-text">Review</span>
+                </div>
+            </div>
+
+            <div class="checkout-grid">
+                <div class="checkout-form">
+                    <!-- Step 1: Delivery Method -->
+                    <div class="checkout-step active" id="step-1">
+                        <h2>Choose Delivery Method</h2>
+                        <div class="delivery-options">
+                            <div class="delivery-option" data-method="pickup">
+                                <span class="material-symbols-outlined">store</span>
+                                <p>Pick Up</p>
+                            </div>
+                            <div class="delivery-option" data-method="delivery">
+                                <span class="material-symbols-outlined">local_shipping</span>
+                                <p>Delivery</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Information -->
+                    <div class="checkout-step" id="step-2">
+                        <h2>Information</h2>
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        <!-- Delivery Address (shown only for delivery) -->
+                        <div id="delivery-fields" style="display: none;">
+                            <div class="form-group">
+                                <label for="address">Delivery Address</label>
+                                <input type="text" id="address" placeholder="Street Address">
+                            </div>
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city">
+                            </div>
+                            <div class="form-group">
+                                <label for="zipcode">ZIP Code</label>
+                                <input type="text" id="zipcode">
+                            </div>
+                        </div>
+                        <!-- Pickup Time (shown only for pickup) -->
+                        <div id="pickup-fields" style="display: none;">
+                            <div class="form-group">
+                                <label for="pickup-time">Pickup Time</label>
+                                <input type="time" id="pickup-time">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Payment -->
+                    <div class="checkout-step" id="step-3">
+                        <h2>Payment Method</h2>
+                        <div class="payment-methods">
+                            <div class="payment-method" data-method="credit">
+                                <span class="material-symbols-outlined">credit_card</span>
+                                <p>Credit Card</p>
+                            </div>
+                            <div class="payment-method" data-method="debit">
+                                <span class="material-symbols-outlined">credit_card</span>
+                                <p>Debit Card</p>
+                            </div>
+                            <div class="payment-method" data-method="apple">
+                                <span class="material-symbols-outlined">phone_iphone</span>
+                                <p>Apple Pay</p>
+                            </div>
+                            <!-- Cash payment option (only for pickup) -->
+                            <div class="payment-method pickup-only" data-method="cash" style="display: none;">
+                                <span class="material-symbols-outlined">payments</span>
+                                <p>Cash on Pickup</p>
+                            </div>
+                        </div>
+                        <div id="card-details" style="display: none;">
+                            <div class="form-group">
+                                <label for="card">Card Number</label>
+                                <input type="text" id="card" placeholder="**** **** **** ****">
+                            </div>
+                            <div class="form-group-row">
+                                <div class="form-group">
+                                    <label for="expiry">Expiry Date</label>
+                                    <input type="text" id="expiry" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cvv">CVV</label>
+                                    <input type="text" id="cvv" placeholder="***">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Review -->
+                    <div class="checkout-step" id="step-4">
+                        <h2>Review Order</h2>
+                        <div class="review-section">
+                            <h3>Delivery Method</h3>
+                            <p id="review-delivery-method"></p>
+                            <h3>Contact Information</h3>
+                            <p id="review-contact"></p>
+                            <h3>Payment Method</h3>
+                            <p id="review-payment"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" id="prev-step" class="nav-button" style="display: none;">Previous</button>
+                        <button type="button" id="next-step" class="nav-button">Next</button>
+                        <button type="submit" id="complete-order" class="nav-button" style="display: none;">Complete Order</button>
+                    </div>
+                </div>
+
+                <div class="checkout-summary">
+                    <h3>Order Summary</h3>
+                    <div id="checkout-items"></div>
+                    <div class="cart-summary">
+                        <div class="cart-total-cups">Total Cups: <span id="checkout-total-cups">0</span></div>
+                        <div class="cart-total-price">Total: $<span id="checkout-total-price">0.00</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Tracking Interface -->
+        <div class="order-tracking-container" style="display: none;">
+            <h2>Track Your Order</h2>
+            <div class="order-info">
+                <div class="order-number">
+                    <h3>Order Number</h3>
+                    <p id="tracking-number">-</p>
+                </div>
+                <div class="estimated-time">
+                    <h3>Estimated Time</h3>
+                    <p id="estimated-time">-</p>
+                </div>
+            </div>
+            
+            <div class="tracking-progress">
+                <div class="tracking-step active">
+                    <div class="step-icon">
+                        <span class="material-symbols-outlined">receipt</span>
+                    </div>
+                    <div class="step-info">
+                        <h4>Order Received</h4>
+                        <p id="order-received-time">-</p>
+                    </div>
+                </div>
+                <div class="tracking-step">
+                    <div class="step-icon">
+                        <span class="material-symbols-outlined">inventory</span>
+                    </div>
+                    <div class="step-info">
+                        <h4>Preparing</h4>
+                        <p id="preparing-time">-</p>
+                    </div>
+                </div>
+                <div class="tracking-step">
+                    <div class="step-icon">
+                        <span class="material-symbols-outlined">local_shipping</span>
+                    </div>
+                    <div class="step-info">
+                        <h4 id="delivery-step-text">On The Way</h4>
+                        <p id="delivery-time">-</p>
+                    </div>
+                </div>
+                <div class="tracking-step">
+                    <div class="step-icon">
+                        <span class="material-symbols-outlined">check_circle</span>
+                    </div>
+                    <div class="step-info">
+                        <h4>Completed</h4>
+                        <p id="completed-time">-</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tracking-note">
+                <p>You'll receive updates via email as your order progresses.</p>
+                <p>Bookmark this page or save your order number to check status anytime.</p>
+            </div>
+            
+            <div class="tracking-actions">
+                <button id="refresh-tracking" class="tracking-btn">
+                    <span class="material-symbols-outlined">refresh</span>
+                    Refresh Status
+                </button>
+                <button id="contact-support" class="tracking-btn">
+                    <span class="material-symbols-outlined">support_agent</span>
+                    Contact Support
+                </button>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="success-modal" class="modal">
+            <div class="modal-content">
+                <h2>Thank You for Your Order!</h2>
+                <p>Your order has been successfully placed.</p>
+                <p>Order confirmation has been sent to your email.</p>
+                
+                <!-- Order Tracking Information -->
+                <div class="order-tracking-info">
+                    <h3>Track Your Order</h3>
+                    <div class="tracking-number-container">
+                        <span>Order #: </span>
+                        <span id="modal-order-number">701-XXXX-XXXX</span>
+                        <button id="copy-order-number">
+                            <span class="material-symbols-outlined">content_copy</span>
+                        </button>
+                    </div>
+                    <div class="tracking-status">
+                        <div class="status-indicator">
+                            <div class="status-circle active">
+                                <span class="status-icon material-symbols-outlined">check</span>
+                            </div>
+                            <div class="status-line"></div>
+                            <div class="status-circle">
+                                <span class="status-icon material-symbols-outlined">inventory</span>
+                            </div>
+                            <div class="status-line"></div>
+                            <div class="status-circle">
+                                <span class="status-icon material-symbols-outlined">local_shipping</span>
+                            </div>
+                            <div class="status-line"></div>
+                            <div class="status-circle">
+                                <span class="status-icon material-symbols-outlined">check_circle</span>
+                            </div>
+                        </div>
+                        <div class="status-labels">
+                            <span>Received</span>
+                            <span>Preparing</span>
+                            <span id="delivery-pickup-label">Delivery</span>
+                            <span>Completed</span>
+                        </div>
+                    </div>
+                    <p class="tracking-instruction">Use your order number to track your order status on our website or check your email for updates.</p>
+                </div>
+
+                <div class="success-buttons">
+                    <button id="track-order-btn" class="primary-button track-button">Track Order</button>
+                    <button onclick="window.location.href='index.html'" class="primary-button home-button">Return to Home</button>
+                    <button onclick="window.location.href='menu.html'" class="primary-button order-button">Order More</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/the.lab.701/" target="_blank" rel="noopener noreferrer">
+                <span class="material-symbols-outlined">photo_camera</span>
+                <span>Instagram</span>
+            </a>
+            <a href="https://www.youtube.com/@701SoundStudio" target="_blank" rel="noopener noreferrer">
+                <span class="material-symbols-outlined">play_circle</span>
+                <span>YouTube</span>
+            </a>
+            <a href="https://www.linkedin.com/company/thelab701/about/?viewAsMember=true" target="_blank" rel="noopener noreferrer">
+                <span class="material-symbols-outlined">work</span>
+                <span>LinkedIn</span>
+            </a>
+        </div>
+        <p>&copy; 2025 THE.LAB.701</p>
+    </footer>
+
+    <!-- Mini Music Player -->
+    <div class="mini-player">
+        <div id="youtube-player"></div>
+        <div class="player-content">
+            <img id="track-thumbnail" src="medias/Cover-M1.png" alt="Track thumbnail">
+            <div class="track-info">
+                <span id="track-name">Enjoy Your Cozy Morning</span>
+            </div>
+            <div class="player-controls">
+                <span id="prev-track" class="material-symbols-outlined" tabindex="0">skip_previous</span>
+                <span id="play-pause" class="material-symbols-outlined" tabindex="0">play_circle</span>
+                <span id="next-track" class="material-symbols-outlined" tabindex="0">skip_next</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+
+</html> 
